@@ -81,7 +81,10 @@ export default function navBar() {
           <Toolbar>
             <Container className={classes.navDisplayFlex}>
               <IconButton edge="start" color="inherit" aria-label="home">
-                <Home fontSize="large" />
+                <Link to="/" style={{textDecoration:'none',
+                  color:'white'}}>
+                  <Home fontSize="large" />{" "}
+                </Link>
               </IconButton>
 
               <List component="nav" className={classes.navDisplayFlex}>
@@ -99,7 +102,6 @@ export default function navBar() {
 
         <Paper>
           <Grid container spacing={1}>
-            
             <Grid item xs={2} sm={3}>
               <Paper></Paper>
             </Grid>
@@ -112,7 +114,6 @@ export default function navBar() {
               />
             </Grid>
 
-
             <IconButton
               type="submit"
               className={classes.iconButton}
@@ -120,14 +121,16 @@ export default function navBar() {
             >
               <SearchIcon />
             </IconButton>
-            
+
             <Grid item xs={1} sm={3}>
-            <div  className={classes.divForSpan}>
-              <ShoppingCartOutlinedIcon fontSize="large" className={classes.cart}/>
-              <span className={classes.span}>0</span>
+              <div className={classes.divForSpan}>
+                <ShoppingCartOutlinedIcon
+                  fontSize="large"
+                  className={classes.cart}
+                />
+                <span className={classes.span}>0</span>
               </div>
             </Grid>
-            
           </Grid>
         </Paper>
       </div>

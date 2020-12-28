@@ -1,7 +1,16 @@
 .flashSaleImgBanner > img {
-  width: 75vw !important;
+  display: inline-block;
+  margin-top: 50px;
+  width: 90vw !important;
 }
-#flashSale2 {
+#flashSale2FlashItems {
   margin-top: 30px;
   margin-left: 100px;
+}
+.liFlashSale{
+  margin-right: 15px;
+}
+#parentFlashSale{
+  display: inline-block;
+  margin-left: 15px;
 }

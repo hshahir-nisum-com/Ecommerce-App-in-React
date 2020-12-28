@@ -12,12 +12,11 @@ import Home from "./home";
 function App() {
   return (
     <main className="App">
-      {/* <Switch>
+      <Switch>
         <Route path="/" component={Home} exact />
         <Route path="/flashSaleItems" component={FlashItems} exact />
-      </Switch> */}
-      <p>hi</p>
-      <Home/>
+      </Switch>
+      {/* <Home/> */}
     </main>
   );
 }

@@ -11,7 +11,7 @@
 
 #btn{
 margin-left: 40vw;   
-width: 8vw;
+width: 9vw;
 height: 4vh;
 }
 #OnSale{
@@ -27,9 +27,9 @@ height: 4vh;
     flex-direction: row;
     /* justify-content: space-between; */
 }
-li{
-    /* justify-content: space-around; */
-    margin-right: 15px;
+.li{
+    justify-content: space-around;
+    margin-right: 10px;
 }
 .flashBox{
     text-decoration: none !important;
