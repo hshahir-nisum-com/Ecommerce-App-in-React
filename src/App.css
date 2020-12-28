@@ -1,0 +1,15 @@
+.App {
+ 
+}
+
+#header{
+    background-color: black;
+    color: white;
+    margin: auto;
+    padding: 10px;
+    text-align: center;
+    font-family: 'times new roman', times;
+    font-size: small;
+    border-bottom: 4px solid #ffffff;
+    text-align: center;
+}
