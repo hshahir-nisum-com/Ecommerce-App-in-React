@@ -1,7 +1,7 @@
-import {  Container } from "@material-ui/core";
-import React  from "react";
-import {  Link } from "react-router-dom";
-import Timer from './timer'
+import { Container } from "@material-ui/core";
+import React from "react";
+import { Link } from "react-router-dom";
+import Timer from "./timer";
 import "./flashSale.css";
 import img1 from "./images/flash1.png";
 import img2 from "./images/flash2.jpg";
@@ -62,7 +62,6 @@ export default function FlashSale() {
     },
   ];
 
-  
   //  console.log(timerComponents)
   return (
     <div>
@@ -78,13 +77,26 @@ export default function FlashSale() {
               {saleList.map((val) => {
                 return (
                   <li id={val.id} className="li">
-                    <Link className="flash-box">
+                    <Link
+                      to={{
+                        pathname: "/productdisplay",
+                        aboutProps: {
+                          img: val.img,
+                          title: val.title,
+                          price: val.price,
+                          discount: val.discount,
+                          actualPrice: val.actualPrice,
+                          id: val.id,
+                        },
+                      }}
+                      className="flash-box"
+                    >
                       <div>
                         <div>
                           <img src={val.img} alt="img Missing" id={val.id} />{" "}
                         </div>
                         <div className="FMCG2_1Text">
-                          <a >{val.title}</a>
+                          <a>{val.title}</a>
                           <div>
                             <span style={{ color: "orange" }}>{val.price}</span>
                           </div>
