@@ -29,6 +29,9 @@ const MyStyle = makeStyles((theme) => ({
   frgt: {
     marginLeft: "-16vw",
   },
+  linkStyle:{
+    textDecoration : 'none'
+  }
 }));
 
 export default function signIn() {
@@ -95,6 +98,7 @@ export default function signIn() {
             <br />
             <br />
             <Grid item xs={12}>
+              <Link to='/' className={classes.linkStyle}>
               <Button
                 variant="contained"
                 fullWidth
@@ -103,6 +107,7 @@ export default function signIn() {
               >
                 Sign Up
               </Button>
+              </Link>
             </Grid>
             <Grid container justify="flex-end">
               <Grid item>

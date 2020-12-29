@@ -2,17 +2,22 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import StoreMallDirectoryIcon from '@material-ui/icons/StoreMallDirectory';
+import {Container} from "@material-ui/core";
 import StoreIcon from '@material-ui/icons/Store';
 import PublicIcon from '@material-ui/icons/Public';
 import StyleIcon from '@material-ui/icons/Style';
 import GamesIcon from '@material-ui/icons/Games';
 
-const myStyles = makeStyles((theme) => ({
+const myStyles = makeStyles(() => ({
+  stripCotainer:{
+    display :'flex',
+    flexDirection :'row',
+  },
     button: {
-      margin: theme.spacing(1),
-       width : "17vw",
+      margin: "20px 30px",
       borderRadius : "15px",
     },
+   
   }));
 
 export default function strip() {
@@ -37,7 +42,7 @@ export default function strip() {
                 icon : <StoreMallDirectoryIcon/>
             }]
     return (
-        <div>
+        <Container  className={classes.stripCotainer}>
             {itemList.map(({text,icon})=>{
                 return (
                 <Button
@@ -50,6 +55,6 @@ export default function strip() {
                     </Button>
                 )
             })}
-        </div>
+        </Container>
     )
 }

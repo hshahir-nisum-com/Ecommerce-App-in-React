@@ -7,7 +7,7 @@ import Img3 from './images/cover3.jpg';
 export default function slider() {
 
     return (
-        <Carousel autoPlay  showArrows={true} showThumbs={false}>
+        <Carousel autoPlay  showArrows={true} showThumbs={false}     >
               
                 <div>
                     <img src={Img1} alt="img1" />

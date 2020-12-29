@@ -1,22 +1,26 @@
 import "./App.css";
-import NavBar from "./components/navBar";
-import Signin from "./components/signIn";
-import SignUp from "./components/signUp";
-import Slider from "./components/slider/slider";
-import Strip from "./components/slider/strip";
-import FlashSale from "./components/flashSale/flashSale";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import FlashItems from "./components/flashSale/flashItems";
+import SignIn from './components/signIn'
+import Singup from './components/signUp'
 import Home from "./home";
+import { makeStyles } from "@material-ui/core/styles";
+
+
+
+
+
 
 function App() {
+
   return (
     <main className="App">
       <Switch>
         <Route path="/" component={Home} exact />
         <Route path="/flashSaleItems" component={FlashItems} exact />
+        <Route path="/login" component={SignIn} exact />
+        <Route path="/signup" component={Singup} exact />
       </Switch>
-      {/* <Home/> */}
     </main>
   );
 }

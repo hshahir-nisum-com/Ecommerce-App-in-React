@@ -1,7 +1,7 @@
-import { Button, Container } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
-import FlashItems from "./flashItems";
+import {  Container } from "@material-ui/core";
+import React  from "react";
+import {  Link } from "react-router-dom";
+import Timer from './timer'
 import "./flashSale.css";
 import img1 from "./images/flash1.png";
 import img2 from "./images/flash2.jpg";
@@ -62,82 +62,29 @@ export default function FlashSale() {
     },
   ];
 
-  //cal time function
-  const calculateTimeLeft = () => {
-    const difference = +new Date("2020-12-31") - +new Date();
-    let timeLeft = {};
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
-
-    return timeLeft;
-  };
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  });
-
-  const timerComponents = [];
-
-  Object.keys(timeLeft).forEach((interval) => {
-    if (!timeLeft[interval]) {
-      return;
-    }
-
-    timerComponents.push(
-      <span key={timerComponents}>
-        {/* {console.log(interval)} */}
-        {timeLeft[interval]} {interval}{" "}
-      </span>
-    );
-  });
-
-   console.log(timerComponents)
+  
+  //  console.log(timerComponents)
   return (
     <div>
       <Container>
         <br />
-
-        {/* <FlashSale /> */}
         <h1> Flash Sale</h1>
-        <div id="parentFlashSale">
-          <div id="flashSale1">
-            <div id="OnSaleNow">
-              <span id="OnSale"> On Sale Now </span> Ending{" "}
-              {timerComponents.length ? (
-                timerComponents
-              ) : (
-                <span>Time's up!</span>
-              )}
-              <Button variant="outlined" color="primary" id="btn">
-                <Link to="/flashSaleItems"> More </Link>
-              </Button>
-            </div>
-          </div>
+        <div id="parent-flash-sale">
+          <Timer />
           <hr />
 
           <div id="flashSale2">
-            <ul className="unorderList">
+            <ul className="unorder-list">
               {saleList.map((val) => {
                 return (
                   <li id={val.id} className="li">
-                    <Link className="flashBox">
+                    <Link className="flash-box">
                       <div>
                         <div>
                           <img src={val.img} alt="img Missing" id={val.id} />{" "}
                         </div>
                         <div className="FMCG2_1Text">
-                          <a>{val.title}</a>
+                          <a >{val.title}</a>
                           <div>
                             <span style={{ color: "orange" }}>{val.price}</span>
                           </div>

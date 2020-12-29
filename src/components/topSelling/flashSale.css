@@ -1,12 +1,7 @@
-#parent-flash-sale{
+#parentFlashSale{
     display: flex;
     flex-direction: column;
 
-}
-#flash-sale1{
-    display: flex;
-    flex-direction: row;
-    align-content: flex-end;
 }
 
 #btn{
@@ -15,12 +10,7 @@ margin-left: 36vw;
 width: 9vw;
 height: 4vh;
 }
-#OnSale{
-    color: rgb(235, 179, 88);
-    margin-right: 5vw;
-}
-
-.unorder-list{
+.unorderList{
     list-style-type: none;
     display: flex;
     flex-direction: row;
@@ -30,15 +20,14 @@ height: 4vh;
     justify-content: space-around;
     margin-right: 10px;
 }
-.flash-box{
+.flashBox{
     text-decoration: none !important;
 }
-.flash-box > div > div > img {
+.flashBox > div > div > img {
     width: 180px !important;
     height: 200px !important;
     text-decoration: none !important;
 }
 .li:hover{
-    z-index: 1;
     box-shadow: 10px 10px 5px grey;
 }
