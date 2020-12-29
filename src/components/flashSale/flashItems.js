@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Navbar from '../navBar'
 import { Link } from "react-router-dom";
 import imgFlash from "./images/flashSale.jpg";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import { makeStyles } from "@material-ui/core/styles";
+import { Container } from "@material-ui/core";
 import img1 from "./images/flash1.png";
 import img2 from "./images/flash2.jpg";
 import img3 from "./images/flash3.png";
@@ -161,7 +163,7 @@ export default function FlashItems() {
   ];
 
   const calculateTimeLeft = () => {
-    let time = new Date(`12/29/2020`).toDateString();
+    let time = new Date(`"2020-12-31"`)
     const difference = +new Date(time) - +new Date();
 
     let timeLeft = {};
@@ -204,47 +206,55 @@ export default function FlashItems() {
 
   return (
     <div>
-      <div className="flashSaleImgBanner">
-        <img src={imgFlash} alt="img" />
-      </div>
-      <h1> Flash Sale</h1>
-      <div id="parentFlashSale">
-        <div id="flashSale1">
-          <div id="OnSaleNow">
-            <span id="OnSale"> On Sale Now </span> Ending{" "}
-            {timerComponents.length ? timerComponents : <span>Time's up!</span>}
+      <Navbar />
+      <Container>
+        <div className="flashSaleImgBanner">
+          <img src={imgFlash} alt="img" />
+        </div>
+
+        <h1> Flash Sale</h1>
+        <div id="parentFlashSale">
+          <div id="flashSale1">
+            <div id="OnSaleNow">
+              <span id="OnSale"> On Sale Now </span> Ending{" "}
+              {timerComponents.length ? (
+                timerComponents
+              ) : (
+                <span>Time's up!</span>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-      <div id="flashSale2">
-        <GridList className="unorderList" cellHeight={320} cols={6}>
-          {saleList.map((val) => {
-            return (
-              <GridListTile id={val.id} className="li">
-                <Link className="flashBox">
-                  <div>
+        <div id="flashSale2FlashItems">
+          <GridList className="unorderList" cellHeight={320} cols={6}>
+            {saleList.map((val) => {
+              return (
+                <GridListTile id={val.id} className="liFlashSale">
+                  <Link className="flashBox">
                     <div>
-                      <img src={val.img} alt="img Missing" id={val.id} />{" "}
-                    </div>
-                    <div className="FMCG2_1Text">
-                      <a>{val.title}</a>
                       <div>
-                        <span style={{ color: "orange" }}>{val.price}</span>
+                        <img src={val.img} alt="img Missing" id={val.id} />{" "}
                       </div>
-                      <span style={{ textDecoration: "line-through" }}>
-                        Rs {val.actualPrice}
-                      </span>
+                      <div className="FMCG2_1Text">
+                        <a>{val.title}</a>
+                        <div>
+                          <span style={{ color: "orange" }}>{val.price}</span>
+                        </div>
+                        <span style={{ textDecoration: "line-through" }}>
+                          Rs {val.actualPrice}
+                        </span>
+                      </div>
+                      <div>
+                        <span>{val.discount}</span>
+                      </div>
                     </div>
-                    <div>
-                      <span>{val.discount}</span>
-                    </div>
-                  </div>
-                </Link>
-              </GridListTile>
-            );
-          })}
-        </GridList>
-      </div>
+                  </Link>
+                </GridListTile>
+              );
+            })}
+          </GridList>
+        </div>
+      </Container>
     </div>
   );
 }

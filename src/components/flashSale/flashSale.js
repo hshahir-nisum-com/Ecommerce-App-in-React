@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import FlashItems from "./flashItems";
 import "./flashSale.css";
-import NavBar from "../navBar";
 import img1 from "./images/flash1.png";
 import img2 from "./images/flash2.jpg";
 import img3 from "./images/flash3.png";
@@ -65,13 +64,8 @@ export default function FlashSale() {
 
   //cal time function
   const calculateTimeLeft = () => {
-    let time = new Date(`12/29/2020`).toDateString();
-    // console.log('time: ', time, 'new Date(time): ', new Date(time));
-    const difference = +new Date(time) - +new Date();
-
-    console.log('difference: ', new Date(difference));
+    const difference = +new Date("2020-12-31") - +new Date();
     let timeLeft = {};
-
     if (difference > 0) {
       timeLeft = {
         days: Math.floor(difference / (1000 * 60 * 60 * 24)),
@@ -102,16 +96,15 @@ export default function FlashSale() {
 
     timerComponents.push(
       <span key={timerComponents}>
-        {console.log(interval)}
+        {/* {console.log(interval)} */}
         {timeLeft[interval]} {interval}{" "}
       </span>
     );
   });
 
-  // console.log(timerComponents)
+   console.log(timerComponents)
   return (
     <div>
-      <NavBar />
       <Container>
         <br />
 
@@ -126,11 +119,9 @@ export default function FlashSale() {
               ) : (
                 <span>Time's up!</span>
               )}
-              <Link to="/flashSaleItems">
-                <Button variant="outlined" color="primary" id="btn">
-                  More
-                </Button>
-              </Link>
+              <Button variant="outlined" color="primary" id="btn">
+                <Link to="/flashSaleItems"> More </Link>
+              </Button>
             </div>
           </div>
           <hr />

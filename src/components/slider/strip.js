@@ -10,7 +10,7 @@ import GamesIcon from '@material-ui/icons/Games';
 const myStyles = makeStyles((theme) => ({
     button: {
       margin: theme.spacing(1),
-       width : "14vw",
+       width : "17vw",
       borderRadius : "15px",
     },
   }));
