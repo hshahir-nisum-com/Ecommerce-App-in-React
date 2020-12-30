@@ -52,7 +52,7 @@ export default function SignIn() {
       credentials.password === password
     ) {
       setflag(true)
-      dispatch( userNamePassword())
+      dispatch( userNamePassword(userName))
     } else {
       setflag(false)
     }

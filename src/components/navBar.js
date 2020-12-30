@@ -93,7 +93,7 @@ export default function NavBar() {
 
     const [status, setStatus] = useState(false)  
     const data = useSelector(state => state, shallowEqual);
-    console.log("data",data.userName)
+    console.log("data",data.userName.length)
     useEffect(() => {
       const header = document.getElementById("myHeader");
       const sticky = header.offsetTop;
@@ -148,12 +148,14 @@ export default function NavBar() {
                   </ListItem>)
                   } 
                   else {
-                  return(
+                  return (
                     <ListItem button key={title}>
-                    <Link to={path} className={classes.linkText}>
-                      {data.userName.length > 0 ? data.userName : title}
+                      <Link to={path} className={classes.linkText}>
+                        {console.log("1",data.userName)}
+                        {data.userName.length > 0 ? data.userName : title}
                       </Link>
-                  </ListItem>)
+                    </ListItem>
+                  );
                   }
                 })}
               </List>
