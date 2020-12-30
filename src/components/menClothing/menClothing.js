@@ -8,23 +8,32 @@ import "./menClothing.css";
 import { useDispatch} from "react-redux";
 import { fetchedData } from "../../redux/action/action";
 
+import { shallowEqual, useSelector } from "react-redux";
 function ElectronicD() {
-  const [temp, settemp] = useState([]);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    async function fetchData() {
-      const { data } = await axios.get("https://fakestoreapi.com/products");
-      dispatch( fetchedData(data))
-      let myArr = data.filter(
-        (category) => category.category == "men clothing"
-      );
-      console.log("from api ", myArr);
-      settemp(myArr);
-    }
-    fetchData();
-  }, [temp]);
+  // const [temp, settemp] = useState([]);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const { data } = await axios.get("https://fakestoreapi.com/products");
+  //     dispatch( fetchedData(data))
+  //     let myArr = data.filter(
+  //       (category) => category.category == "men clothing"
+  //     );
+  //     console.log("from api ", myArr);
+  //     settemp(myArr);
+  //   }
+  //   fetchData();
+  // }, [temp]);
 
-console.log("from api call", temp);
+
+    const globalState = useSelector((state) => state, shallowEqual);
+    let { data } = globalState.fetchedData;
+    console.log("from global State", data);
+    let myArr = data.filter((category) => category.category === "men clothing");
+    console.log("from myArr fashion", myArr);
+
+
+// console.log("from api call", temp);
 
   return (
     <div>
@@ -34,10 +43,10 @@ console.log("from api call", temp);
 
         <div>
           <GridList className="unorder-list" cellHeight={320} cols={3}>
-            {temp.map((val) => {
+            {myArr.map((val) => {
               return (
                 <span key={val.id} className="menClothing-wrapper">
-                  {val.category === "men clothing" && (
+                  {(
                     <GridListTile key={val.id} className="li-menCat-sale">
                       <Link
                         to={{

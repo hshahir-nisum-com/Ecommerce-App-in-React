@@ -4,36 +4,14 @@ import { Link } from "react-router-dom";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import { shallowEqual, useSelector } from "react-redux";
-import "./fashion.css";
-import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
+import "./electronic.css";
 
-function Fashion(props) {
-
-    const getGridListCols = () => {
-      if (isWidthUp("xl", props.width)) {
-        return 4;
-      }
-
-      if (isWidthUp("lg", props.width)) {
-        return 3;
-      }
-
-      if (isWidthUp("sm", props.width)) {
-        return 3;
-      }
-
-      return 1;
-    };
-
-
+function Electronic() {
   const globalState = useSelector((state) => state, shallowEqual);
   let { data } = globalState.fetchedData;
   console.log("from global State", data);
-  let myArr = data.filter(
-    (category) =>
-      category.category === "jewelery" || category.category === "women clothing"
-  );
-  console.log("from myArr fashion", props.width);
+  let myArr = data.filter((category) => category.category === "electronics");
+  console.log("from myArr electronic", myArr);
 
   return (
     <div>
@@ -41,17 +19,13 @@ function Fashion(props) {
         <br />
         <h1> Top Selling</h1>
         <div>
-          <GridList
-            className="unorder-fashion-list "
-            cellHeight={320}
-            cols={getGridListCols()}
-          >
+          <GridList className="unorder-electronic-list " cellHeight={320} cols={3}>
             {myArr.map((val) => {
               console.log("in map", val);
               return (
-                <span key={val.id} className="fashion-wrapper">
+                <span key={val.id} className="electronic-wrapper">
                   {
-                    <GridListTile key={val.id} className="li-fashion-sale">
+                    <GridListTile key={val.id} className="li-electronic-sale">
                       <Link
                         to={{
                           pathname: "/productdisplay",
@@ -63,9 +37,9 @@ function Fashion(props) {
                             description: val.description,
                           },
                         }}
-                        className="fashion-Box"
+                        className="electronic-Box"
                       >
-                        <div className="fashion-container">
+                        <div className="electronic-container">
                           <div>
                             <img
                               src={val.image}
@@ -73,7 +47,7 @@ function Fashion(props) {
                               id={val.id}
                             />{" "}
                           </div>
-                          <div className="fashion-text">
+                          <div className="electronic-text">
                             <span>{val.title}</span>
                             <div>
                               <span style={{ color: "orange" }}>
@@ -98,4 +72,4 @@ function Fashion(props) {
   );
 }
 
-export default withWidth()(Fashion);
+export default Electronic;

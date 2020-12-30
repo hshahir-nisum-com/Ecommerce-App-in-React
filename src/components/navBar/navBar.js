@@ -84,7 +84,7 @@ const MyStyle = makeStyles((theme) => ({
 export default function NavBar() {
   const navLinks = [
     { title: "Men Clothing", path: "/menClothing" },
-    { title: "Groceries", path: "/groceries" },
+    { title: "electronics", path: "/electronics" },
     { title: "Fashions", path: "/fashions" },
     { title: "Contact Us", path: "/contactus" },
     { title: "Login / Signup", path: "/login" },

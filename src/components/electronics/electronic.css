@@ -1,0 +1,27 @@
+.unorder-electronic-list {
+    display: flex;
+    /* flex-direction: row; */
+    width: '100%' !important;
+  }
+  
+  .electronic-Box {
+    text-decoration: none !important;
+  }
+  .electronic-Box > div > div > img {
+    width: 220px !important;
+    height: 200px !important;
+    text-decoration: none !important;
+  }
+  .electronic-wrapper {
+    display: inline-block;
+    margin : 0 auto;
+    width: max-content;
+  }
+  .li-electronic-sale:hover {
+    box-shadow: 0px 0px 5px grey;
+  }
+  .electronic-text{
+    padding : 20px;
+    padding-left : 10px;
+  }
+  
