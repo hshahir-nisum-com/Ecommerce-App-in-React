@@ -7,7 +7,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import "./fashion.css";
 
 function Fashion() {
-  
+
   const globalState = useSelector((state) => state, shallowEqual);
   let {data } = globalState.fetchedData
   console.log("from global State", data);
@@ -20,13 +20,13 @@ function Fashion() {
       <Container>
         <br />
         <h1> Top Selling</h1>
-
         <div>
           <GridList className="unorder-fashion-list " cellHeight={320} cols={3}>
             {myArr.map((val) => {
+              console.log("in map",val)
               return (
                 <span key={val.id} className="fashion-wrapper">
-                  {val.category === "men clothing" && (
+                  {(
                     <GridListTile key={val.id} className="li-fashion-sale">
                       <Link
                         to={{
