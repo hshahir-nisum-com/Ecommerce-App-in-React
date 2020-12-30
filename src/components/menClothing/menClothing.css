@@ -1,0 +1,26 @@
+.unorder-list {
+  display: flex;
+  flex-direction: row;
+  width: '100%' !important;
+}
+
+.menCat-Box {
+  text-decoration: none !important;
+}
+.menCat-Box > div > div > img {
+  width: 220px !important;
+  height: 200px !important;
+  text-decoration: none !important;
+}
+.menClothing-wrapper {
+  display: inline-block;
+  margin : 0 auto;
+  width: max-content;
+}
+.li-menCat-sale:hover {
+  box-shadow: 0px 0px 5px grey;
+}
+.men-clothing-text{
+  padding : 30px;
+  padding-left : 10px;
+}

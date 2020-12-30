@@ -6,13 +6,12 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
-import { Alert, AlertTitle } from "@material-ui/lab";
+import { Alert } from "@material-ui/lab";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Navbar from "./navBar";
-import Footer from "./footer/footer";
+import Footer from "../footer/footer";
 import { useDispatch, shallowEqual, useSelector } from "react-redux";
-import { userNamePassword } from "../redux/action/action";
+import { userNamePassword } from "../../redux/action/action";
 
 const MyStyle = makeStyles((theme) => ({
   boxOutLine: {
@@ -35,16 +34,17 @@ const credentials = {
   userName: "shahir",
   password: "123",
 };
-
+ 
 export default function SignIn() {
   const classes = MyStyle();
   const [userName, setuserName] = useState("");
   const [password, setpassword] = useState("");
+  const [flag, setflag]= useState();
+  const [temp , setTemp] = useState(false);
   const dispatch = useDispatch();
   const data = useSelector((state) => state, shallowEqual);
   console.log("count", data);
-  const [flag, setflag]= useState();
-  const [temp , setTemp] = useState(false);
+  
   function checkCredential() {
     setTemp(true)
     if (
@@ -61,7 +61,6 @@ export default function SignIn() {
   
   return (
     <div>
-      <Navbar />
 
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
@@ -113,8 +112,11 @@ export default function SignIn() {
               Login
             </Button>
             
-            { temp &&( flag ? 
+            { temp &&( flag ? <span>
+              
             <Alert severity="success">Login is successfull</Alert> 
+            
+            </span>
               
             : 
               <Alert variant="filled" severity="error"> wrong credentials — check it out! </Alert>)

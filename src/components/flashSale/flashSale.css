@@ -1,44 +1,32 @@
-#parent-flash-sale{
-    display: flex;
-    flex-direction: column;
-
+#parent-flash-sale {
+  display: flex;
+  flex-direction: column;
 }
-#flash-sale1{
-    display: flex;
-    flex-direction: row;
-    align-content: flex-end;
-}
-
-#btn{
-margin-left: 36vw;
-/* float: right;    */
-width: 9vw;
-height: 4vh;
-}
-#OnSale{
-    color: rgb(235, 179, 88);
-    margin-right: 5vw;
+#flash-sale1 {
+  display: flex;
+  flex-direction: row;
+  align-content: flex-end;
 }
 
-.unorder-list{
-    list-style-type: none;
-    display: flex;
-    flex-direction: row;
-    /* justify-content: space-between; */
+
+.unorder-list {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
 }
-.li{
-    justify-content: space-around;
-    margin-right: 10px;
+.li {
+  justify-content: space-around;
+  margin-right: 10px;
 }
-.flash-box{
-    text-decoration: none !important;
+.flash-box {
+  text-decoration: none !important;
 }
 .flash-box > div > div > img {
-    width: 180px !important;
-    height: 200px !important;
-    text-decoration: none !important;
+  width: 180px !important;
+  height: 200px !important;
+  text-decoration: none !important;
 }
-.li:hover{
-    z-index: 1;
-    box-shadow: 10px 10px 5px grey;
+.li:hover {
+  z-index: 1;
+  box-shadow: 10px 10px 5px grey;
 }

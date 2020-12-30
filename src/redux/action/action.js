@@ -7,3 +7,19 @@ export const userNamePassword = (usr)=>{
         
     }   
 }
+
+export const addtocart = (data)=>{
+    return {
+        type : type.addToCart,
+        payLoad : data,
+        
+    }   
+}
+
+export const fetchedData = (temp)=>{
+    return {
+        type : type.fetchedData,
+        payLoad : temp,
+        
+    }   
+}

@@ -1,9 +1,9 @@
-import { Button, Container } from "@material-ui/core";
+import {  Container } from "@material-ui/core";
 import React  from "react";
 import { Link} from "react-router-dom";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import "./flashSale.css";
+import "./topSelling.css";
 import img1 from "./images/flash1.png";
 import img2 from "./images/flash2.jpg";
 import img3 from "./images/flash3.png";
@@ -166,17 +166,29 @@ export default function FlashSale() {
         <h1> Top Selling</h1>
         
         <div id="flashSale2FlashItems">
-          <GridList className="unorderList" cellHeight={320} cols={6}>
+          <GridList className="unorderList" cellHeight={320} cols={7}>
             {saleList.map((val) => {
               return (
-                <GridListTile id={val.id} className="liFlashSale">
-                  <Link className="flashBox">
+                <GridListTile id={val.id} className="li-flash-sale">
+                  <Link
+                  to={{
+                        pathname: "/productdisplay",
+                        aboutProps: {
+                          img: val.img,
+                          title: val.title,
+                          price: val.price,
+                          discount: val.discount,
+                          actualPrice: val.actualPrice,
+                          id: val.id,
+                        },
+                      }}
+                   className="flashBox">
                     <div>
                       <div>
                         <img src={val.img} alt="img Missing" id={val.id} />{" "}
                       </div>
                       <div className="FMCG2_1Text">
-                        <a>{val.title}</a>
+                        <span>{val.title}</span>
                         <div>
                           <span style={{ color: "orange" }}>{val.price}</span>
                         </div>

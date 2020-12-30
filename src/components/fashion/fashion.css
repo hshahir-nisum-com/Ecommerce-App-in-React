@@ -1,0 +1,27 @@
+.unorder-fashion-list {
+    display: flex;
+    flex-direction: row;
+    width: '100%' !important;
+  }
+  
+  .fashion-Box {
+    text-decoration: none !important;
+  }
+  .fashion-Box > div > div > img {
+    width: 220px !important;
+    height: 200px !important;
+    text-decoration: none !important;
+  }
+  .fashion-wrapper {
+    display: inline-block;
+    margin : 0 auto;
+    width: max-content;
+  }
+  .li-fashion-sale:hover {
+    box-shadow: 0px 0px 5px grey;
+  }
+  .fashion-text{
+    padding : 30px;
+    padding-left : 10px;
+  }
+  

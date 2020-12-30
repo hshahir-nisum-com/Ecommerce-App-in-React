@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Navbar from '../navBar'
+import React from "react";
 import { Link } from "react-router-dom";
 import imgFlash from "./images/flashSale.jpg";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import { makeStyles } from "@material-ui/core/styles";
 import { Container } from "@material-ui/core";
 import img1 from "./images/flash1.png";
 import img2 from "./images/flash2.jpg";
@@ -13,7 +11,6 @@ import img4 from "./images/flash4.jpg";
 import img5 from "./images/flash5.png";
 import img6 from "./images/flash6.jpg";
 import "./flashItems.css";
-
 export default function FlashItems() {
   const saleList = [
     {
@@ -162,69 +159,15 @@ export default function FlashItems() {
     },
   ];
 
-  const calculateTimeLeft = () => {
-    let time = new Date(`"2020-12-31"`)
-    const difference = +new Date(time) - +new Date();
-
-    let timeLeft = {};
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
-
-    return timeLeft;
-  };
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  });
-
-  const timerComponents = [];
-  Object.keys(timeLeft).forEach((interval) => {
-    if (!timeLeft[interval]) {
-      return;
-    }
-
-    timerComponents.push(
-      <span key={timerComponents}>
-        {timeLeft[interval]} {interval}{" "}
-      </span>
-    );
-  });
-
   return (
     <div>
-      <Navbar />
       <Container>
-        <div className="flash-sale-banner" >
+        <div className="flash-sale-banner">
           <img src={imgFlash} alt="img" />
         </div>
-
         <h1> Flash Sale</h1>
-        <div className="parent-flash-sale">
-          <div id="flashSale1">
-            <div id="OnSaleNow">
-              <span id="OnSale"> On Sale Now </span> Ending{" "}
-              {timerComponents.length ? (
-                timerComponents
-              ) : (
-                <span>Time's up!</span>
-              )}
-            </div>
-          </div>
-        </div>
         <div className="flash-sale2-flash-items">
-          <GridList className="unorderList" cellHeight={320} cols={6}>
+          <GridList className="unorderList" cellHeight={330} cols={6}>
             {saleList.map((val) => {
               return (
                 <GridListTile id={val.id} className="li-flash-sale">
@@ -234,7 +177,7 @@ export default function FlashItems() {
                         <img src={val.img} alt="img Missing" id={val.id} />{" "}
                       </div>
                       <div className="FMCG2_1Text">
-                        <a>{val.title}</a>
+                        <span>{val.title}</span>
                         <div>
                           <span style={{ color: "orange" }}>{val.price}</span>
                         </div>

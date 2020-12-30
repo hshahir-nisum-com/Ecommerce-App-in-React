@@ -1,37 +1,102 @@
-import React from 'react'
-import Navbar from "../navBar";
-import Footer from '../footer/footer'
+import React,{useState} from 'react'
+import Footer from '../footer/footer';
+import Strip from '../slider/strip'
 import { Container } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import { useDispatch, shallowEqual, useSelector } from "react-redux";
+import { addtocart } from "../../redux/action/action";
 
 
-
-
-const MyStyle = makeStyles((theme) => ({
+const MyStyle = makeStyles(() => ({
   div: {
     display: "flex",
     flexDirection: "row",
   },
   imgClass:{
-      width:"200px",
-      height :"250px"
+      width:"30vw",
+      height :"50vh",
+      margin : '50px'
+  },
+  txtBox :{
+    width : '40vw',
+  },
+  butButtonStyle :{
+    margin : '0 auto'
+  },
+  buyButton:{
+    width  : '30vw',
+    marginTop : '30px',
+    marginLeft : '5vw',
   }
+
 }));
 
-function singleProduct(props) {
+function SingleProduct(props) {
+
+  const [count, setcount]= useState(0);
+
       const classes = MyStyle();
+      const dispatch = useDispatch();
+      const data = useSelector((state) => state, shallowEqual);
+      console.log('data from sigle product', data)
+      const {img,
+        title,
+        price,
+        discount,
+        actualPrice,
+        id} = props.location.aboutProps;
     return (
       <div>
         {console.log(props)}
-        <Navbar />
+        <Strip/>
         <Container>
           <Box component="div" className={classes.div}>
             <Box>
-              <img src={props.location.aboutProps.img} alt="img" className={classes.imgClass}/>
+              <img src={img} alt="img" className={classes.imgClass}/>
             </Box>
-            <Box>
-              <p>{props.location.aboutProps.title}</p>
+            <Box className={classes.txtBox}>
+              <h1>{title}</h1> 
+              <p>Rs : {actualPrice}  {" "} <br/>
+              <span>Discount : {discount} </span> <br/>
+              <span>New Price : {price}</span> <br/>
+              </p>
+              <Box component="div" className={classes.btnGrp}>
+                Quantity {" "}
+
+                <ButtonGroup size="small" aria-label="small outlined button group">
+                <Button onClick={ ()=>{
+                  dispatch( addtocart(props.location.aboutProps))
+                    setcount(
+                      count+1
+                    )
+                  }
+
+                }>+</Button>
+                { <Button disabled>{count}</Button>}
+                { count &&  <Button
+                  onClick={ ()=>{
+                    setcount(
+                      count-1
+                    )
+                  }}
+                
+                 >-</Button>}
+                </ButtonGroup>
+              </Box>
+              <Box component="div" className={classes.butButtonStyle}>
+              
+              <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.buyButton}
+                    fullWidth
+              >
+                Buy Now
+              </Button>
+              </Box>
             </Box>
           </Box>
         </Container>
@@ -40,4 +105,8 @@ function singleProduct(props) {
     );
 }
 
-export default singleProduct
+export default SingleProduct
+
+
+
+

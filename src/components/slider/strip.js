@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import StoreMallDirectoryIcon from '@material-ui/icons/StoreMallDirectory';
 import {Container} from "@material-ui/core";
-import StoreIcon from '@material-ui/icons/Store';
 import PublicIcon from '@material-ui/icons/Public';
 import StyleIcon from '@material-ui/icons/Style';
 import GamesIcon from '@material-ui/icons/Games';

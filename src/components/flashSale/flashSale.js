@@ -15,50 +15,50 @@ export default function FlashSale() {
     {
       img: img1,
       title: "NESTLE Everyday 900gm",
-      price: "RS. 915",
-      actualPrice: "930",
+      price: 915,
+      actualPrice: 930,
       discount: "2%",
-      id: "firstImg",
+      id: "1",
     },
     {
       img: img2,
       title: "Buy 1 get 1 free Bluetooth handsfree",
-      price: "RS. 1015",
-      actualPrice: "2000",
+      price: 1015,
+      actualPrice: 2000,
       discount: "40%",
-      id: "secondImg",
+      id: "2",
+    },
+    {
+      img: img6,
+      title: "Finger Gloves",
+      price: 120,
+      actualPrice: 190,
+      discount: "20%",
+      id: "3",
     },
     {
       img: img3,
-      title: "Finger Gloves",
-      price: "RS. 120",
-      actualPrice: "190",
-      discount: "20%",
-      id: "thirdImg",
-    },
-    {
-      img: img4,
       title: "cocomo 5 pack",
-      price: "RS. 5",
-      actualPrice: "5",
+      price: 5,
+      actualPrice: 5,
       discount: "0%",
-      id: "fourthImg",
+      id: "4",
     },
     {
       img: img5,
       title: "Black Disposable protective mask",
-      price: "RS. 100",
-      actualPrice: "120",
+      price: 100,
+      actualPrice: 120,
       discount: "10%",
-      id: "fithImg",
+      id: "5",
     },
     {
-      img: img6,
+      img: img4,
       title: "U1 Hnadfree high bass good quality",
-      price: "RS. 129",
-      actualPrice: "500",
+      price: 129,
+      actualPrice: 500,
       discount: "74%",
-      id: "sixImg",
+      id: "6",
     },
   ];
 
@@ -76,7 +76,7 @@ export default function FlashSale() {
             <ul className="unorder-list">
               {saleList.map((val) => {
                 return (
-                  <li id={val.id} className="li">
+                  <li id={val.id} className="li" key={val.id}>
                     <Link
                       to={{
                         pathname: "/productdisplay",
@@ -96,9 +96,9 @@ export default function FlashSale() {
                           <img src={val.img} alt="img Missing" id={val.id} />{" "}
                         </div>
                         <div className="FMCG2_1Text">
-                          <a>{val.title}</a>
+                          <span>{val.title}</span>
                           <div>
-                            <span style={{ color: "orange" }}>{val.price}</span>
+                            <span style={{ color: "orange" }}>Rs: {val.price}</span>
                           </div>
                           <span style={{ textDecoration: "line-through" }}>
                             Rs {val.actualPrice}

@@ -1,13 +1,29 @@
-
 import { Button } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import {  Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+
+const MyStyle = makeStyles(() => ({
+  OnSaleNow: {
+    width: "100%",
+  },
+  btn: {
+    display: "inline-block",
+    overflow: "auto",
+    whiteSpace: "nowrap",
+    margin: "0px auto",
+    float: "right",
+  },
+  OnSale: {
+    color: "rgb(235, 179, 88)",
+  },
+}));
 
 function Timer() {
-
-    //cal time function
+  const classes = MyStyle();
+  //cal time function
   const calculateTimeLeft = () => {
-    console.log(+new Date("2020-12-31") )
+    console.log(+new Date("2020-12-31"));
     const difference = +new Date("2021-01-02") - +new Date();
     let timeLeft = {};
     if (difference) {
@@ -46,25 +62,19 @@ function Timer() {
     );
   });
 
-
-
-    return (
-        <div id="flash-sale1">
-            <div id="OnSaleNow">
-              <span id="OnSale"> On Sale Now </span> Ending{" "}
-              {timerComponents.length ? (
-                timerComponents
-              ) : (
-                <span>Time's up!</span>
-              )}
-              <Link to="/flashSaleItems">
-              <Button variant="outlined" color="primary" id="btn">
-               More 
-              </Button>
-              </Link>
-            </div>
-          </div>
-    )
+  return (
+    <div id="flash-sale1">
+      <div id="OnSaleNow" className={classes.OnSaleNow}>
+        <span className={classes.OnSale}> On Sale Now </span> Ending{" "}
+        {timerComponents.length ? timerComponents : <span>Time's up!</span>}
+        <Link to="/flashSaleItems">
+          <Button variant="outlined" color="primary" className={classes.btn}>
+            More
+          </Button>
+        </Link>
+      </div>
+    </div>
+  );
 }
 
-export default Timer
+export default Timer;

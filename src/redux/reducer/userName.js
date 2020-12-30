@@ -5,7 +5,7 @@ const initialState = {
   userName: ""
 };
 
- export   const userNamePassword = (state=initialState, action) => {
+ export   const userName = (state=initialState, action) => {
    switch (action.type) {
      case type.userNamePassword: {
        return {
