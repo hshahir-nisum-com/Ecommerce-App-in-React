@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React,{useState,useEffect} from "react";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -7,15 +7,11 @@ import {
   IconButton,
   List,
   ListItem,
-  Paper,
   Container,
-  TextField,
-  Grid,
 } from "@material-ui/core";
-import { Home } from "@material-ui/icons";
-import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
-import SearchIcon from "@material-ui/icons/Search";
 import { shallowEqual, useSelector } from "react-redux";
+import SearchBox from "./searchBox";
+import MenuIcon from '@material-ui/icons/Menu';
 
 const MyStyle = makeStyles((theme) => ({
   root: {
@@ -33,36 +29,17 @@ const MyStyle = makeStyles((theme) => ({
     textDecoration: `none`,
     textTransform: `uppercase`,
     color: `white`,
-    width: 'max-content',
+    width: "max-content",
   },
   input: {
     marginLeft: theme.spacing(1),
     flex: 1,
   },
-  iconButton: {
-    padding: 10,
-  },
   divider: {
     height: 28,
     margin: 4,
   },
-  divForSpan: {
-    position: "relative",
-  },
-  span: {
-    position: "absolute",
-    // marginRight : "20px"
-    marginLeft: "40px",
-  },
-  cart: {
-    padding: 10,
-    position: "absolute",
-  },
-  sticky: {
-    width: "100%",
-    position: "fixed",
-    //  top:0,
-  },
+
   header: {
     backgroundColor: "black",
     color: "white",
@@ -72,14 +49,26 @@ const MyStyle = makeStyles((theme) => ({
     fontSize: "small",
     width: "100%",
   },
-  appbar: {},
   mySticky: {
-    marginTop: "0px",
     position: "sticky",
   },
-  listvalues:{
+  icontxt: {
+    textDecoration: "none",
+    color: "white",
+    textTransform: `uppercase`,
+  },
+  menuButton: {
+      marginRight: theme.spacing(2),
+      [theme.breakpoints.up('sm')]: {
+        display: 'none',
+      },
+    },
+
+
+    
   }
-}));
+
+));
 
 export default function NavBar() {
   const navLinks = [
@@ -89,37 +78,17 @@ export default function NavBar() {
     { title: "Contact Us", path: "/contactus" },
     { title: "Login / Signup", path: "/login" },
   ];
-
-  const [status, setStatus] = useState(false);
   const data = useSelector((state) => state, shallowEqual);
-  console.log("data from nav bar", data);
-  useEffect(() => {
-    const header = document.getElementById("myHeader");
-    const sticky = header.offsetTop;
-    console.log("header Offset", sticky);
+  
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  function handleDrawerToggle() {
+      setMobileOpen(!mobileOpen)
+    }
 
-    const scrollCallBack = window.addEventListener("scroll", () => {
-      if (window.pageYOffset > sticky) {
-        // header.className.add("sticky");
-        setStatus(true);
-      } else {
-        header.classList.remove("sticky");
-        setStatus(false);
-      }
-    });
-    return () => {
-      window.removeEventListener("scroll", scrollCallBack);
-    };
-  }, []);
 
   const classes = MyStyle();
-
-  console.log("status", status);
   return (
-    <AppBar
-      id="myHeader"
-      className={status ? classes.sticky : classes.mySticky}
-    >
+    <AppBar id="myHeader" className={classes.mySticky}>
       <div>
         <header className={classes.header}>
           Groceries delivery in Karachi / Mobile phones, Cosmetics, Toys &
@@ -128,9 +97,21 @@ export default function NavBar() {
 
         <Toolbar>
           <Container className={classes.navDisplayFlex}>
+
+
+          <IconButton
+            color="inherit"
+            aria-label="Open drawer"
+            edge="start"
+          >
+            <MenuIcon />
+          </IconButton>
+
+
+
             <IconButton edge="start" color="inherit" aria-label="home">
-              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                <Home fontSize="large" />{" "}
+              <Link to="/" className={classes.icontxt}>
+                <span>Super Store</span>
               </Link>
             </IconButton>
 
@@ -138,7 +119,7 @@ export default function NavBar() {
               {navLinks.map(({ title, path }) => {
                 if (title !== navLinks[4].title) {
                   return (
-                    <ListItem button key={title} className = {classes.listvalues}>
+                    <ListItem button key={title} className={classes.listvalues}>
                       <Link to={path} className={classes.linkText}>
                         {title}
                       </Link>
@@ -159,39 +140,7 @@ export default function NavBar() {
           </Container>
         </Toolbar>
 
-        <Paper>
-          <Grid container spacing={1}>
-            <Grid item xs={2} sm={3}>
-              <Paper></Paper>
-            </Grid>
-            <Grid item xs={5} sm={5}>
-              <TextField
-                id="filled-search"
-                label="Search in Store"
-                type="search"
-                fullWidth
-              />
-            </Grid>
-
-            <IconButton
-              type="submit"
-              className={classes.iconButton}
-              aria-label="search"
-            >
-              <SearchIcon />
-            </IconButton>
-
-            <Grid item xs={1} sm={3}>
-              <div className={classes.divForSpan}>
-                <ShoppingCartOutlinedIcon
-                  fontSize="large"
-                  className={classes.cart}
-                />
-                <span className={classes.span}>{data.addToCart.quantity}</span>
-              </div>
-            </Grid>
-          </Grid>
-        </Paper>
+        <SearchBox />
       </div>
     </AppBar>
   );

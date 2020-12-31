@@ -5,11 +5,11 @@ import SignIn from './components/signin signup/signIn'
 import Singup from './components/signin signup/signUp'
 import SingProduct from "./components/singleProduct/singleProduct"
 import Home from "./home";
-import NavBar from './components/navBar/navBar'
+import NavBar from './components/navBar/tempnavBar'
 import MenClothing from './components/menClothing/menClothing'
 import Fashions from './components/fashion/fashion'
 import Electronics from './components/electronics/electronic'
-
+import Footer from "./components/footer/footer";
 
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
         <Route path="/fashions" component={Fashions} exact />
         <Route path="/electronics" component={Electronics} exact />
       </Switch>
+      <Footer />
     </main>
   );
 }

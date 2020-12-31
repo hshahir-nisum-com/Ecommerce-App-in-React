@@ -24,7 +24,7 @@ function Fashion(props) {
 
       return 1;
     };
-
+ 
 
   const globalState = useSelector((state) => state, shallowEqual);
   let { data } = globalState.fetchedData;

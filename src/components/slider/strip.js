@@ -6,6 +6,7 @@ import {Container} from "@material-ui/core";
 import PublicIcon from '@material-ui/icons/Public';
 import StyleIcon from '@material-ui/icons/Style';
 import GamesIcon from '@material-ui/icons/Games';
+import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 
 const myStyles = makeStyles(() => ({
   stripCotainer:{
@@ -16,10 +17,20 @@ const myStyles = makeStyles(() => ({
       margin: "20px 30px",
       borderRadius : "15px",
     },
-   
+    stripCotainerSm :{
+      display :'none'
+    }
   }));
 
-export default function strip() {
+
+ function strip(props) {
+  
+  const stripDisplay = () => {
+    let clsValue = isWidthUp("sm" || "lg", props.width)
+      ? classes.stripCotainer
+      : classes.stripCotainerSm;
+    return clsValue;
+  };
 
     const classes = myStyles();
         const itemList = [
@@ -41,7 +52,7 @@ export default function strip() {
                 icon : <StoreMallDirectoryIcon/>
             }]
     return (
-        <Container  className={classes.stripCotainer}>
+        <Container  className={stripDisplay()}>
             {itemList.map(({text,icon})=>{
                 return (
                 <Button
@@ -57,3 +68,5 @@ export default function strip() {
         </Container>
     )
 }
+
+export default withWidth()(strip);

@@ -14,9 +14,15 @@
   display: flex;
   flex-direction: row;
 }
+.unorder-list-sm{
+  list-style-type: none;
+  display: flex;
+  flex-direction: column; 
+}
 .li {
   justify-content: space-around;
   margin-right: 10px;
+  margin-bottom: 10px;
 }
 .flash-box {
   text-decoration: none !important;

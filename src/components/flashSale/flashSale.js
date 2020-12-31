@@ -9,8 +9,9 @@ import img3 from "./images/flash3.png";
 import img4 from "./images/flash4.jpg";
 import img5 from "./images/flash5.png";
 import img6 from "./images/flash6.jpg";
+import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 
-export default function FlashSale() {
+function FlashSale(props) {
   const saleList = [
     {
       img: img1,
@@ -62,6 +63,13 @@ export default function FlashSale() {
     },
   ];
 
+  const listDirection = () => {
+    let clsValue = isWidthUp("sm" || "lg", props.width)
+      ? "unorder-list"
+      : "unorder-list-sm";
+    return clsValue;
+  };
+
   //  console.log(timerComponents)
   return (
     <div>
@@ -73,7 +81,7 @@ export default function FlashSale() {
           <hr />
 
           <div id="flashSale2">
-            <ul className="unorder-list">
+            <ul className={listDirection()}>
               {saleList.map((val) => {
                 return (
                   <li id={val.id} className="li" key={val.id}>
@@ -98,7 +106,9 @@ export default function FlashSale() {
                         <div className="FMCG2_1Text">
                           <span>{val.title}</span>
                           <div>
-                            <span style={{ color: "orange" }}>Rs: {val.price}</span>
+                            <span style={{ color: "orange" }}>
+                              Rs: {val.price}
+                            </span>
                           </div>
                           <span style={{ textDecoration: "line-through" }}>
                             Rs {val.actualPrice}
@@ -119,3 +129,4 @@ export default function FlashSale() {
     </div>
   );
 }
+export default withWidth()(FlashSale);

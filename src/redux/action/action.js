@@ -20,6 +20,6 @@ export const fetchedData = (temp)=>{
     return {
         type : type.fetchedData,
         payLoad : temp,
-        
+    
     }   
 }
