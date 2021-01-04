@@ -1,7 +1,6 @@
 .unorder-electronic-list {
     display: flex;
-    /* flex-direction: row; */
-    width: '100%' !important;
+    /* width: '100%' !important; */
   }
   
   .electronic-Box {

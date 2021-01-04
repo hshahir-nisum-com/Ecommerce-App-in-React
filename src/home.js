@@ -3,21 +3,22 @@ import Slider from "./components/slider/slider";
 import Strip from "./components/slider/strip";
 import FlashSale from "./components/flashSale/flashSale";
 import TopSelling from "./components/topSelling/topSelling";
-
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Container } from "@material-ui/core";
-import { useDispatch} from "react-redux";
-import { fetchedData } from "./redux/action/action";
 import React, { useEffect } from "react";
-import axios from "axios";
+import { useDispatch} from "react-redux";
+import fetchProduct from './apis/products/fetchProduct';
+import { fetchedData } from "./redux/action/action";
+
+
+
 
 function App() {
-
 
   const dispatch = useDispatch();
   useEffect(() => {
     async function fetchData() {
-      const { data } = await axios.get("https://fakestoreapi.com/products");
+      const data = await fetchProduct()
       dispatch( fetchedData(data))
     }
     fetchData();

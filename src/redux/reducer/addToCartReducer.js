@@ -17,10 +17,10 @@ const initialState = {
      case type.addToCart: {
        return {
          ...state,
-           name : action.payLoad.title,
-           quantity : state.quantity +1,
-           price : parseInt(action.payLoad.price),
-           totalPrice : parseInt(action.payLoad.price) * (state.quantity + 1),
+           name : action.payLoad.productDetail.title,
+           quantity : state.quantity + action.payLoad.quantity,
+           price : parseInt(action.payLoad.productDetail.price),
+           totalPrice : parseInt(action.payLoad.productDetail.price) * (state.quantity + action.payLoad.quantity),
            id : action.payLoad.id,
        };
      }

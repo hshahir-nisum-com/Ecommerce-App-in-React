@@ -10,9 +10,16 @@ const MyStyle = makeStyles((theme) => ({
     width: "100%",
     marginTop: theme.spacing * 3,
     overflowX: "auto",
-    zIndex: "-1",
+    // zIndex: "-1",
   },
-  
+  ppr :{
+    marginTop :'75px',
+    height :'55px',
+    top:"100px",
+    "@media (max-width: 900px)": {   
+    marginTop :'55px',
+    },
+  },
   iconButton: {
     padding: 10,
   },
@@ -37,8 +44,8 @@ function SearchBox() {
   const data = useSelector((state) => state, shallowEqual);
   return (
     <div>
-      <Paper>
-        <Grid container spacing={1}>
+      <Paper className={classes.ppr}  >
+        <Grid container  >
           <Grid item xs={2} sm={3}>
             <Paper></Paper>
           </Grid>

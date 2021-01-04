@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "@material-ui/core";
+import { Container , Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import { shallowEqual, useSelector } from "react-redux";
 import "./fashion.css";
 import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
+import { useDispatch} from "react-redux";
+import fetchProduct from '../../apis/products/fetchProduct';
+import { fetchedData } from "../../redux/action/action";
 
 function Fashion(props) {
 
@@ -17,7 +20,7 @@ function Fashion(props) {
       if (isWidthUp("lg", props.width)) {
         return 3;
       }
-
+ 
       if (isWidthUp("sm", props.width)) {
         return 3;
       }
@@ -25,10 +28,33 @@ function Fashion(props) {
       return 1;
     };
  
+    const globalState = useSelector((state) => state, shallowEqual);
+    let { data } = globalState.fetchedData;
+    console.log("from global State", data.length);
 
-  const globalState = useSelector((state) => state, shallowEqual);
-  let { data } = globalState.fetchedData;
-  console.log("from global State", data);
+    const dispatch = useDispatch();
+    useEffect(() => {
+      async function fetchData() {
+        if (data.length<1){
+          console.log("in if cond")
+        const data = await fetchProduct()
+        console.log("api Fetched Resul",data)
+        dispatch( fetchedData(data))
+        }
+      }
+      fetchData();
+    }, []);
+  
+
+
+
+
+
+
+
+
+
+  
   let myArr = data.filter(
     (category) =>
       category.category === "jewelery" || category.category === "women clothing"
@@ -36,22 +62,21 @@ function Fashion(props) {
   console.log("from myArr fashion", props.width);
 
   return (
-    <div>
       <Container>
         <br />
         <h1> Top Selling</h1>
         <div>
-          <GridList
+          <Grid
             className="unorder-fashion-list "
-            cellHeight={320}
+            container spacing={1}
             cols={getGridListCols()}
           >
             {myArr.map((val) => {
               console.log("in map", val);
               return (
-                <span key={val.id} className="fashion-wrapper">
+                <Grid item xs key={val.id} className="fashion-wrapper">
                   {
-                    <GridListTile key={val.id} className="li-fashion-sale">
+                    <Container key={val.id} className="li-fashion-sale">
                       <Link
                         to={{
                           pathname: "/productdisplay",
@@ -86,15 +111,14 @@ function Fashion(props) {
                           </div>
                         </div>
                       </Link>
-                    </GridListTile>
+                    </Container>
                   }
-                </span>
+                </Grid>
               );
             })}
-          </GridList>
+          </Grid>
         </div>
       </Container>
-    </div>
   );
 }
 

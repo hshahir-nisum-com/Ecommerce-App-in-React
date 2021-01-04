@@ -1,16 +1,52 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "@material-ui/core";
+import { Container , Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
 import { shallowEqual, useSelector } from "react-redux";
 import "./electronic.css";
+import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
+import { useDispatch} from "react-redux";
+import fetchProduct from '../../apis/products/fetchProduct';
+import { fetchedData } from "../../redux/action/action";
 
-function Electronic() {
+function Electronic(props) {
+  
+  const getGridListCols = () => {
+    if (isWidthUp("xl", props.width)) {
+      return 4;
+    }
+
+    if (isWidthUp("lg", props.width)) {
+      return 3;
+    }
+
+    if (isWidthUp("sm", props.width)) {
+      return 3;
+    }
+
+    return 1;
+  };
+
+
   const globalState = useSelector((state) => state, shallowEqual);
   let { data } = globalState.fetchedData;
   console.log("from global State", data);
-  let myArr = data.filter((category) => category.category === "electronics");
+
+  const dispatch = useDispatch();
+    useEffect(() => {
+      async function fetchData() {
+        if (data.length<1){
+          console.log("in if cond")
+        const data = await fetchProduct()
+        console.log("api Fetched Resul",data)
+        dispatch( fetchedData(data))
+        }
+      }
+      fetchData();
+    }, []);
+
+
+  
+  let myArr = data.filter((category) => category.category === "electronics" || category.category === "women clothing");
   console.log("from myArr electronic", myArr);
 
   return (
@@ -19,16 +55,16 @@ function Electronic() {
         <br />
         <h1> Top Selling</h1>
         <div>
-          <GridList className="unorder-electronic-list " cellHeight={320} cols={3}>
+          <Grid className="unorder-electronic-list "  container spacing={1} >
             {myArr.map((val) => {
               console.log("in map", val);
               return (
-                <span key={val.id} className="electronic-wrapper">
+                <Grid item xs key={val.id} className="electronic-wrapper">
                   {
-                    <GridListTile key={val.id} className="li-electronic-sale">
+                    <Container key={val.id} className="li-electronic-sale">
                       <Link
                         to={{
-                          pathname: "/productdisplay",
+                          pathname: `/productdisplay/${val.id}`,
                           aboutProps: {
                             img: val.image,
                             title: val.title,
@@ -60,16 +96,16 @@ function Electronic() {
                           </div>
                         </div>
                       </Link>
-                    </GridListTile>
+                    </Container>
                   }
-                </span>
+                </Grid>
               );
             })}
-          </GridList>
+          </Grid>
         </div>
       </Container>
     </div>
   );
 }
 
-export default Electronic;
+export default withWidth()(Electronic);

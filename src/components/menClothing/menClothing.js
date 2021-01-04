@@ -1,56 +1,69 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "@material-ui/core";
+import { Container , Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
 import "./menClothing.css";
+import { shallowEqual, useSelector } from "react-redux";
+import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 import { useDispatch} from "react-redux";
+import fetchProduct from '../../apis/products/fetchProduct';
 import { fetchedData } from "../../redux/action/action";
 
-import { shallowEqual, useSelector } from "react-redux";
-function ElectronicD() {
-  // const [temp, settemp] = useState([]);
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const { data } = await axios.get("https://fakestoreapi.com/products");
-  //     dispatch( fetchedData(data))
-  //     let myArr = data.filter(
-  //       (category) => category.category == "men clothing"
-  //     );
-  //     console.log("from api ", myArr);
-  //     settemp(myArr);
-  //   }
-  //   fetchData();
-  // }, [temp]);
 
+
+
+function ElectronicD(props) {
 
     const globalState = useSelector((state) => state, shallowEqual);
     let { data } = globalState.fetchedData;
     console.log("from global State", data);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+      async function fetchData() {
+        if (data.length<1){
+          console.log("in if cond")
+        const data = await fetchProduct()
+        console.log("api Fetched Resul",data)
+        dispatch( fetchedData(data))
+        }
+      }
+      fetchData();
+    }, []);
+
     let myArr = data.filter((category) => category.category === "men clothing");
+
     console.log("from myArr fashion", myArr);
+    const getGridListCols = () => {
+      if (isWidthUp("xl", props.width)) {
+        return 4;
+      }
 
+      if (isWidthUp("lg", props.width)) {
+        return 3;
+      }
+ 
+      if (isWidthUp("sm", props.width)) {
+        return 3;
+      }
 
-// console.log("from api call", temp);
-
+      return 1;
+    };
   return (
-    <div>
+    
       <Container>
         <br />
         <h1> Top Selling</h1>
 
-        <div>
-          <GridList className="unorder-list" cellHeight={320} cols={3}>
+        <div >
+          <Grid className="unorder-list" container spacing={1} cols={getGridListCols()}>
             {myArr.map((val) => {
               return (
-                <span key={val.id} className="menClothing-wrapper">
+                <Grid item xs key={val.id} className="menClothing-wrapper">
                   {(
-                    <GridListTile key={val.id} className="li-menCat-sale">
+                    <Container  key={val.id} className="li-menCat-sale">
                       <Link
                         to={{
-                          pathname: "/productdisplay",
+                          pathname: `/productdisplay/${val.id}`,
                           aboutProps: {
                             img: val.image,
                             title: val.title,
@@ -82,16 +95,16 @@ function ElectronicD() {
                           </div>
                         </div>
                       </Link>
-                    </GridListTile>
+                    </Container>
                   )}
-                </span>
+                </Grid>
               );
             })}
-          </GridList>
+          </Grid>
         </div>
       </Container>
-    </div>
+    
   );
 }
 
-export default ElectronicD;
+export default withWidth()(ElectronicD);
