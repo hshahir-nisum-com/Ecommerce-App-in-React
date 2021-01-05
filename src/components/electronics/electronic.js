@@ -7,6 +7,8 @@ import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 import { useDispatch} from "react-redux";
 import fetchProduct from '../../apis/products/fetchProduct';
 import { fetchedData } from "../../redux/action/action";
+import Product from '../product/Products';
+
 
 function Electronic(props) {
   
