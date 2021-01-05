@@ -9,20 +9,23 @@ import {
 import { Alert } from "@material-ui/lab";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import Footer from "../footer/footer";
 import { useDispatch, shallowEqual, useSelector } from "react-redux";
 import { userNamePassword } from "../../redux/action/action";
+import { useHistory } from "react-router-dom";
 
 const MyStyle = makeStyles((theme) => ({
   boxOutLine: {
     border: "1px solid black",
   },
   paper: {
-    marginTop: theme.spacing(12),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    marginTop : '200px',
     marginBottom: "84px",
+    "@media (max-width: 900px)": {
+      marginTop : '150px'  
+    }
   },
   form: {
     width: "100%",
@@ -53,14 +56,17 @@ export default function SignIn() {
     ) {
       setflag(true)
       dispatch( userNamePassword(userName))
+      setTimeout(()=>{
+        history.push('/')
+      },1000)
     } else {
       setflag(false)
     }
   }
-
+  const history = useHistory();
+  console.log("history",history)
   
   return (
-    <div>
 
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
@@ -137,7 +143,5 @@ export default function SignIn() {
           </form>
         </div>
       </Container>
-      <Footer />
-    </div>
   );
 }

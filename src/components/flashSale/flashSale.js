@@ -10,6 +10,11 @@ import img4 from "./images/flash4.jpg";
 import img5 from "./images/flash5.png";
 import img6 from "./images/flash6.jpg";
 import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
+import  { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
+import fetchProduct from '../../apis/products/fetchProduct';
+import { fetchedData } from "../../redux/action/action";
 
 function FlashSale(props) {
   const saleList = [
@@ -70,6 +75,26 @@ function FlashSale(props) {
     return clsValue;
   };
 
+  const globalState = useSelector((state) => state, shallowEqual);
+  let { data } = globalState.fetchedData;
+
+  const dispatch = useDispatch();
+    useEffect(() => {
+      async function fetchData() {
+        if (data.length<1){
+        const data = await fetchProduct()
+        dispatch( fetchedData(data))
+        }
+      }
+      fetchData();
+    }, []);
+
+
+   
+  let myArr = data.filter((category) => category.category === "electronics" || category.category === "women clothing");
+
+  //myArr =  myArr.slice(0,10)
+
   //  console.log(timerComponents)
   return (
     <div>
@@ -82,14 +107,14 @@ function FlashSale(props) {
 
           <div id="flashSale2">
             <ul className={listDirection()}>
-              {saleList.map((val) => {
+              {myArr.slice(0,4).map((val) => {
                 return (
                   <li id={val.id} className="li" key={val.id}>
                     <Link
                       to={{
-                        pathname: "/productdisplay",
+                        pathname: `/productdisplay/${val.id}`,
                         aboutProps: {
-                          img: val.img,
+                          img: val.image,
                           title: val.title,
                           price: val.price,
                           discount: val.discount,
@@ -101,7 +126,7 @@ function FlashSale(props) {
                     >
                       <div>
                         <div>
-                          <img src={val.img} alt="img Missing" id={val.id} />{" "}
+                          <img src={val.image} alt="img Missing" id={val.id} />{" "}
                         </div>
                         <div className="FMCG2_1Text">
                           <span>{val.title}</span>
@@ -110,9 +135,6 @@ function FlashSale(props) {
                               Rs: {val.price}
                             </span>
                           </div>
-                          <span style={{ textDecoration: "line-through" }}>
-                            Rs {val.actualPrice}
-                          </span>
                         </div>
                         <div>
                           <span>{val.discount}</span>

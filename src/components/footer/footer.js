@@ -6,16 +6,20 @@ import iphonImg from "./images/iphone.png";
 
 const footer = () => {
   const myStyle = makeStyles((theme) => ({
+    
     footer: {
       padding: "24px 16px",
       backgroundColor: "#3f51b5",
       display: "flex",
       flexDirection: "row",
-      marginTop : '50px',
+      bottom: "0",
+      left: "0",
       "@media (max-width: 900px)": {
         flexDirection: "column",
-        marginTop : '30px'
+        marginTop: "30px",
       },
+      marginTop: "300px",
+
     },
     imgstyle: {
       width: "10vw",
@@ -32,6 +36,7 @@ const footer = () => {
 
   const classes = myStyle();
   return (
+    <div className={classes.root}>
     <footer className={classes.footer}>
       <Container>
         <h2 style={{ color: "white" }}>Customer Care</h2>
@@ -82,17 +87,14 @@ const footer = () => {
             src={googleAppImg}
             alt="googleImg"
             style={{ marginRight: "5px" }}
-            className ={classes.imgstyle}
+            className={classes.imgstyle}
           />
 
-          <img
-            src={iphonImg}
-            alt="googleImg"
-            className ={classes.imgstyle}
-          />
+          <img src={iphonImg} alt="googleImg" className={classes.imgstyle} />
         </div>
       </Container>
     </footer>
+    </div>
   );
 };
 

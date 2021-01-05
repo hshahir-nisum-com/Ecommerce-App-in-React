@@ -1,21 +1,23 @@
 import "./App.css";
 import { Route, Switch } from "react-router-dom";
 import FlashItems from "./components/flashSale/flashItems";
-import SignIn from './components/signin signup/signIn'
-import Singup from './components/signin signup/signUp'
-import SingProduct from "./components/singleProduct/singleProduct"
+import SignIn from './components/signin signup/signIn';
+import Singup from './components/signin signup/signUp';
+import SingProduct from "./components/singleProduct/singleProduct";
 import Home from "./home";
-import NavBar from './components/navBar/navBar'
-import MenClothing from './components/menClothing/menClothing'
-import Fashions from './components/fashion/fashion'
-import Electronics from './components/electronics/electronic'
+import NavBar from './components/navBar/navBar';
+import MenClothing from './components/menClothing/menClothing';
+import Fashions from './components/fashion/fashion';
+import Electronics from './components/electronics/electronic';
 import Footer from "./components/footer/footer";
+import SearchResult from "./components/navBar/SearchResult";
+import Contactus from './components/Contactus/Contactus';
 
 
 function App() {
 
   return (
-    <main >
+    <main style={{ height: '100vh'}}>
       <NavBar />
       <Switch>
         <Route path="/" component={Home} exact />
@@ -26,6 +28,8 @@ function App() {
         <Route path="/menClothing" component={MenClothing} exact />
         <Route path="/fashions" component={Fashions} exact />
         <Route path="/electronics" component={Electronics} exact />
+        <Route path="/searchresult/:text" component={SearchResult} exact />
+        <Route path='/contactus' component={Contactus} exact/>
       </Switch>
       <Footer />
     </main>
@@ -33,3 +37,4 @@ function App() {
 }
 
 export default App;
+

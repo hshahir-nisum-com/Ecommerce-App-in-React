@@ -12,6 +12,7 @@ const myStyles = makeStyles(() => ({
   stripCotainer:{
     display :'flex',
     flexDirection :'row',
+    width : 'fit-content'
   },
     button: {
       margin: "20px 30px",

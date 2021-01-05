@@ -23,8 +23,7 @@ function Timer() {
   const classes = MyStyle();
   //cal time function
   const calculateTimeLeft = () => {
-    console.log(+new Date("2020-12-31"));
-    const difference = +new Date("2021-01-02") - +new Date();
+    const difference = +new Date("2021-01-12") - +new Date();
     let timeLeft = {};
     if (difference) {
       timeLeft = {
@@ -56,7 +55,6 @@ function Timer() {
 
     timerComponents.push(
       <span key={timerComponents}>
-        {/* {console.log(interval)} */}
         {timeLeft[interval]} {interval}{" "}
       </span>
     );

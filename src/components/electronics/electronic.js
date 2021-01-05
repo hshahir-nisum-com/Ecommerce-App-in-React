@@ -10,34 +10,17 @@ import { fetchedData } from "../../redux/action/action";
 
 function Electronic(props) {
   
-  const getGridListCols = () => {
-    if (isWidthUp("xl", props.width)) {
-      return 4;
-    }
-
-    if (isWidthUp("lg", props.width)) {
-      return 3;
-    }
-
-    if (isWidthUp("sm", props.width)) {
-      return 3;
-    }
-
-    return 1;
-  };
 
 
+ 
   const globalState = useSelector((state) => state, shallowEqual);
   let { data } = globalState.fetchedData;
-  console.log("from global State", data);
 
   const dispatch = useDispatch();
     useEffect(() => {
       async function fetchData() {
         if (data.length<1){
-          console.log("in if cond")
         const data = await fetchProduct()
-        console.log("api Fetched Resul",data)
         dispatch( fetchedData(data))
         }
       }
@@ -45,9 +28,8 @@ function Electronic(props) {
     }, []);
 
 
-  
+   
   let myArr = data.filter((category) => category.category === "electronics" || category.category === "women clothing");
-  console.log("from myArr electronic", myArr);
 
   return (
     <div>
@@ -57,7 +39,6 @@ function Electronic(props) {
         <div>
           <Grid className="unorder-electronic-list "  container spacing={1} >
             {myArr.map((val) => {
-              console.log("in map", val);
               return (
                 <Grid item xs key={val.id} className="electronic-wrapper">
                   {

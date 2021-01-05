@@ -30,7 +30,7 @@ function App() {
       <Container>
         <br /> <br />
         <Slider />
-        <Strip />
+        {/* <Strip /> */}
         <FlashSale />
         <TopSelling />
       </Container>

@@ -1,6 +1,5 @@
 import {
   Toolbar,
-  Typography,
   IconButton,
   List,
   makeStyles,
@@ -39,7 +38,7 @@ function desktopDisplay() {
 
   return (
     <Toolbar className={toolbar}>
-      <IconButton color="inherit" aria-label="Open drawer" edge="start">
+      <IconButton color="inherit"  edge="start">
         {myLogo}
       </IconButton>
       <List component="nav" className={navDisplayFlex}>

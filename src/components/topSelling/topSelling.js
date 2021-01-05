@@ -10,6 +10,12 @@ import img3 from "./images/flash3.png";
 import img4 from "./images/flash4.jpg";
 import img5 from "./images/flash5.png";
 import img6 from "./images/flash6.jpg";
+import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
+import  { useEffect } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
+import fetchProduct from '../../apis/products/fetchProduct';
+import { fetchedData } from "../../redux/action/action";
 
 export default function FlashSale() {
   const saleList = [
@@ -159,6 +165,27 @@ export default function FlashSale() {
     },
   ];
 
+
+
+  
+  const globalState = useSelector((state) => state, shallowEqual);
+  let { data } = globalState.fetchedData;
+
+  const dispatch = useDispatch();
+    useEffect(() => {
+      async function fetchData() {
+        if (data.length<1){
+        const data = await fetchProduct()
+        dispatch( fetchedData(data))
+        }
+      }
+      fetchData();
+    }, []);
+
+
+   
+  let myArr = data.filter((category) => category.category === "men clothing" || category.category === "women clothing");
+
   return (
     <div>
       <Container>
@@ -167,12 +194,12 @@ export default function FlashSale() {
         
         <div id="flashSale2FlashItems">
           <GridList className="unorderList" cellHeight={320} cols={7}>
-            {saleList.map((val) => {
+            {myArr.map((val) => {
               return (
                 <GridListTile id={val.id} className="li-flash-sale">
                   <Link
                   to={{
-                        pathname: "/productdisplay",
+                        pathname: `/productdisplay/${val.id}`,
                         aboutProps: {
                           img: val.img,
                           title: val.title,
@@ -185,7 +212,7 @@ export default function FlashSale() {
                    className="flashBox">
                     <div>
                       <div>
-                        <img src={val.img} alt="img Missing" id={val.id} />{" "}
+                        <img src={val.image} alt="img Missing" id={val.id} />{" "}
                       </div>
                       <div className="FMCG2_1Text">
                         <span>{val.title}</span>

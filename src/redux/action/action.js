@@ -16,10 +16,10 @@ export const addtocart = (data)=>{
     }   
 }
 
-export const fetchedData = (temp)=>{
+export const fetchedData = (data)=>{
     return {
         type : type.fetchedData,
-        payLoad : temp,
+        payLoad : data,
     
     }   
 }

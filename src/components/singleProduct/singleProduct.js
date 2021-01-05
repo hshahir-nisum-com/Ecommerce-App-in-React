@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Strip from "../slider/strip";
 import { Container } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
@@ -10,7 +10,7 @@ import { addtocart } from "../../redux/action/action";
 import { useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
-import fetchProduct from '../../apis/products/fetchProduct';
+import fetchProduct from "../../apis/products/fetchProduct";
 import { fetchedData } from "../../redux/action/action";
 
 const MyStyle = makeStyles(() => ({
@@ -19,72 +19,86 @@ const MyStyle = makeStyles(() => ({
     flexDirection: "row",
   },
   imgClass: {
-    width: "15vw",
-    height: "25vh",
-    margin: "50px",
+    margin: "30px 50px 20px 0",
+    width: "450px",
+    height: "400px",
+    "@media (max-width:900px)": {
+      margin: "10px",
+      width: "150px",
+      height: "180px",
+    },
   },
   txtBox: {
     width: "40vw",
+    marginTop : '30px',
   },
   butButtonStyle: {
     margin: "0 auto",
   },
   buyButton: {
-    width: "10vw",
+    width: "fit-content",
     marginTop: "10px",
     marginLeft: "1vw",
     "@media (max-width: 900px)": {
       marginTop: "10px",
       marginLeft: "1vw",
+      display: "flex",
+      width: "150px",
     },
   },
+  title: {
+    fontSize: "30px",
+    "@media (max-width: 900px)": {
+      fontSize: "15px",
+    },
+  },
+  btnGrp: {},
 }));
 
 function SingleProduct(props) {
+  const [count, setcount] = useState(0);
+  const [arr, setArr] = useState([]);
+  const classes = MyStyle();
   let { id } = useParams();
   const theme = useTheme();
+
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const buttonProps = {
     variant: isSmallScreen ? "outlined" : "contained",
     size: isSmallScreen ? "small" : "large",
   };
 
-  const [count, setcount] = useState(0);
-
-  const classes = MyStyle();
   const dispatch = useDispatch();
-  let data = useSelector((state) => state, shallowEqual);
-  data = data.fetchedData.data;
-
 
   useEffect(() => {
-    async function fetchData() {
-      if (data.length<1){
-        console.log("in if cond")
-      const data = await fetchProduct()
-      console.log("api Fetched Resul",data)
-      dispatch( fetchedData(data))
-      }
+    async function getData() {
+      const data = await fetchProduct();
+      setArr(data);
+      console.log("line 61", data);
     }
-    fetchData();
+    getData();
   }, []);
 
+  let data_temp = 0;
+  const filteredResult = arr.filter((temp) => temp.id == id);
+  if (filteredResult[0] != null) {
+    data_temp = filteredResult[0];
+    console.log("array", filteredResult[0]);
+  }
+  console.log("temp", data_temp);
 
-  const filteredResult = data.filter((temp) => temp.id == id);
-  console.log(filteredResult[0]);
-  const { image, title, price, description } = filteredResult[0];
+  const { image, title, price, description } = data_temp;
 
   return (
     <div style={{ marginTop: "150px" }}>
-      {/* {console.log("props ",props)} */}
       <Strip />
       <Container>
         <Box component="div" className={classes.div}>
-          <Box>
+          <Box component="div">
             <img src={image} alt="img" className={classes.imgClass} />
           </Box>
           <Box className={classes.txtBox}>
-            <h1>{title}</h1>
+            <span className={classes.title}>{title}</span>
             <p>
               <span> Price : {price}</span> <br />
             </p>
@@ -102,7 +116,7 @@ function SingleProduct(props) {
                   +
                 </Button>
                 {<Button disabled>{count}</Button>}
-                {count < 0 ? (
+                {count < 1 ? (
                   <Button disabled>-</Button>
                 ) : (
                   <Button
@@ -123,7 +137,11 @@ function SingleProduct(props) {
                 onClick={() => {
                   dispatch(
                     addtocart({
-                      productDetail: props.location.aboutProps,
+                      productDetail: {
+                        title,
+                        price,
+                        id,
+                      },
                       quantity: count,
                     })
                   );
@@ -154,3 +172,4 @@ function SingleProduct(props) {
 }
 
 export default SingleProduct;
+    

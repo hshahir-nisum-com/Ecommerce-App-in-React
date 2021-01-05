@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Container , Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
 import { shallowEqual, useSelector } from "react-redux";
 import "./fashion.css";
 import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
@@ -60,7 +58,7 @@ function Fashion(props) {
       category.category === "jewelery" || category.category === "women clothing"
   );
   console.log("from myArr fashion", props.width);
-
+ 
   return (
       <Container>
         <br />
@@ -79,7 +77,7 @@ function Fashion(props) {
                     <Container key={val.id} className="li-fashion-sale">
                       <Link
                         to={{
-                          pathname: "/productdisplay",
+                          pathname: `/productdisplay/${val.id}`,
                           aboutProps: {
                             img: val.image,
                             title: val.title,
