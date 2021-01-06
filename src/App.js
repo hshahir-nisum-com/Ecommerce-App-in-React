@@ -11,13 +11,13 @@ import Fashions from './components/fashion/fashion';
 import Electronics from './components/electronics/electronic';
 import Footer from "./components/footer/footer";
 import SearchResult from "./components/navBar/SearchResult";
-import Contactus from './components/Contactus/Contactus';
+import Contactus from './components/aboutUs/Contactus';
 
 
 function App() {
 
   return (
-    <main style={{ height: '100vh'}}>
+    <main>
       <NavBar />
       <Switch>
         <Route path="/" component={Home} exact />

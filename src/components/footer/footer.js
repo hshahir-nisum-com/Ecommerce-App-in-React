@@ -8,7 +8,7 @@ const footer = () => {
   const myStyle = makeStyles((theme) => ({
     
     footer: {
-      padding: "24px 16px",
+      padding: "24px  16px",
       backgroundColor: "#3f51b5",
       display: "flex",
       flexDirection: "row",

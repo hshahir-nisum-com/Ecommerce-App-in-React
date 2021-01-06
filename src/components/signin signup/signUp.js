@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TextField,
   Button,
@@ -8,13 +8,14 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { useDispatch } from "react-redux";
+import { signup } from "../../redux/action/action";
 const MyStyle = makeStyles((theme) => ({
   boxOutLine: {
     border: "1px solid black",
   },
   paper: {
-    marginTop: theme.spacing(16),
+    marginTop: theme.spacing(25),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -29,13 +30,31 @@ const MyStyle = makeStyles((theme) => ({
   frgt: {
     marginLeft: "-16vw",
   },
-  linkStyle:{
-    textDecoration : 'none'
-  }
+  linkStyle: {
+    textDecoration: "none",
+  },
 }));
 
-export default function signIn() {
+export default function SignIn() {
   const classes = MyStyle();
+  const [firstName, setFirstName] = useState("");
+  const [pass, setPass] = useState("");
+  const dispatch = useDispatch();
+
+  function addCredentials() {
+    if (firstName.length > 0 && pass.length > 0) {
+      console.log("firstName", firstName);
+      console.log("pass", pass);
+      dispatch(
+        signup({
+          name: firstName,
+          pass: pass,
+        })
+      );
+    } else {
+      alert("email/passowrd is missing");
+    }
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -55,6 +74,9 @@ export default function signIn() {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -93,20 +115,24 @@ export default function signIn() {
                 variant="outlined"
                 name="password"
                 autoFocus
+                onChange={(e) => {
+                  setPass(e.target.value);
+                }}
               />
             </Grid>
             <br />
             <br />
             <Grid item xs={12}>
-              <Link to='/' className={classes.linkStyle}>
-              <Button
-                variant="contained"
-                fullWidth
-                color="primary"
-                className={classes.btn}
-              >
-                Sign Up
-              </Button>
+              <Link to="/" className={classes.linkStyle}>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  color="primary"
+                  className={classes.btn}
+                  onClick={() => addCredentials()}
+                >
+                  Sign Up
+                </Button>
               </Link>
             </Grid>
             <Grid container justify="flex-end">

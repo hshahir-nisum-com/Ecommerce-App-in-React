@@ -21,11 +21,11 @@ const MyStyle = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    marginTop : '200px',
+    marginTop: "200px",
     marginBottom: "84px",
     "@media (max-width: 900px)": {
-      marginTop : '150px'  
-    }
+      marginTop: "150px",
+    },
   },
   form: {
     width: "100%",
@@ -33,115 +33,116 @@ const MyStyle = makeStyles((theme) => ({
   },
 }));
 
-const credentials = {
-  userName: "shahir",
-  password: "123",
-};
- 
+
 export default function SignIn() {
   const classes = MyStyle();
   const [userName, setuserName] = useState("");
   const [password, setpassword] = useState("");
-  const [flag, setflag]= useState();
-  const [temp , setTemp] = useState(false);
+  const [flag, setflag] = useState();
+  const [temp, setTemp] = useState(false);
   const dispatch = useDispatch();
   const data = useSelector((state) => state, shallowEqual);
-  console.log("count", data);
-  
+ 
+
   function checkCredential() {
-    setTemp(true)
+    console.log("userrrrrrrrrrrrr",data.userList)
+    let user = data.userList.userName.find(temp => temp === userName ? true : false)
+    let pass = data.userList.pass.find( temp => temp === password ? true : false)
+    
+    setTemp(true);
     if (
-      credentials.userName === userName &&
-      credentials.password === password
+      user !== undefined  &&
+      pass !== undefined
     ) {
-      setflag(true)
-      dispatch( userNamePassword(userName))
-      setTimeout(()=>{
-        history.push('/')
-      },1000)
+      setflag(true);
+      dispatch(userNamePassword(userName));
+      setTimeout(() => {
+        history.push("/");
+      }, 1000);
     } else {
-      setflag(false)
+      setflag(false);
     }
   }
   const history = useHistory();
-  console.log("history",history)
-  
+  console.log("history", history);
+
   return (
+    <Container component="main" maxWidth="xs">
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <form className={classes.form} noValidate>
+          <TextField
+            required
+            fullWidth
+            id="standard-basic email"
+            label="User Name"
+            type="text"
+            name="text"
+            autoComplete="text"
+            autoFocus
+            variant="outlined"
+            onChange={(e) => {
+              setuserName(e.target.value);
+            }}
+          />
+          <br />
+          <br />
+          <TextField
+            required
+            fullWidth
+            id="standard-basic pass"
+            label="Password"
+            type="password"
+            variant="outlined"
+            name="password"
+            autoComplete="password"
+            autoFocus
+            onChange={(e) => {
+              setpassword(e.target.value);
+            }}
+          />
+          <br />
+          <br />
+          <Button
+            variant="contained"
+            fullWidth
+            color="primary"
+            className={classes.btn}
+            onClick={() => {
+              checkCredential();
+            }}
+          >
+            Login
+          </Button>
 
-      <Container component="main" maxWidth="xs">
-        <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              required
-              fullWidth
-              id="standard-basic email"
-              label="User Name"
-              type="text"
-              name="text"
-              autoComplete="text"
-              autoFocus
-              variant="outlined"
-              onChange={(e) => {
-                setuserName(e.target.value);
-              }}
-            />
-            <br />
-            <br />
-            <TextField
-              required
-              fullWidth
-              id="standard-basic pass"
-              label="Password"
-              type="password"
-              variant="outlined"
-              name="password"
-              autoComplete="password"
-              autoFocus
-              onChange={(e) => {
-                setpassword(e.target.value);
-              }}
-            />
-            <br />
-            <br />
-            <Button
-              variant="contained"
-              fullWidth
-              color="primary"
-              className={classes.btn}
-              onClick={() => {
-                checkCredential()
-              }}
-            >
-              Login
-            </Button>
-            
-            { temp &&( flag ? <span>
-              
-            <Alert severity="success">Login is successfull</Alert> 
-            
-            </span>
-              
-            : 
-              <Alert variant="filled" severity="error"> wrong credentials — check it out! </Alert>)
-            }
+          {temp &&
+            (flag ? (
+              <span>
+                <Alert severity="success">Login is successfull</Alert>
+              </span>
+            ) : (
+              <Alert variant="filled" severity="error">
+                {" "}
+                wrong credentials — check it out!{" "}
+              </Alert>
+            ))}
 
-            <Grid container>
-              <Grid item xs>
-                <Link to="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/signup" variant="body2">
-                  {"Sign Up"}
-                </Link>
-              </Grid>
+          <Grid container>
+            <Grid item xs>
+              <Link to="#" variant="body2">
+                Forgot password?
+              </Link>
             </Grid>
-          </form>
-        </div>
-      </Container>
+            <Grid item>
+              <Link to="/signup" variant="body2">
+                {"Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
+      </div>
+    </Container>
   );
 }

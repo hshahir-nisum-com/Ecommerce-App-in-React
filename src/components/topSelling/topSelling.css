@@ -1,36 +1,8 @@
-#parentFlashSale {
-  display: flex;
-  flex-direction: column;
-}
- 
-#btn {
-  margin-left: 36vw;
-  width: 9vw;
-  height: 4vh;
-}
 .unorderList {
-  list-style-type: none;
   display: flex;
   flex-direction: row;
 }
-
-.flashBox {
-  text-decoration: none !important;
-}
-.flashBox > div > div > img {
-  width: 220px !important;
-  height: 200px !important;
-  text-decoration: none !important;
-}
 .li-flash-sale {
-
-  margin-right: 30px;
-  margin: 30px;
-  margin: 0 auto !important;
-  align-self: center;
-  width: 220px !important;
-  margin-bottom: 15px !important;
-}
-.li-flash-sale:hover {
-  box-shadow: 10px 10px 5px grey;
+  margin: 0 auto;
+  width: max-content;
 }

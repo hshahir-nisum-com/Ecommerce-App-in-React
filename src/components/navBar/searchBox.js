@@ -32,8 +32,7 @@ const MyStyle = makeStyles((theme) => ({
     paddingTop: "17px",
     "@media (max-width: 900px)": {
       paddingLeft: "0px",
-      paddingRight : '0px',
-
+      paddingRight: "0px",
     },
   },
 
@@ -61,13 +60,6 @@ function SearchBox() {
   const data = useSelector((state) => state, shallowEqual);
   const [text, settext] = useState("");
 
-  function hitClick() {
-    if (text.length > 1) {
-      history.push(`/searchresult/${text}`);
-      settext("");
-    }
-  }
-
   return (
     <Paper className={classes.ppr}>
       <Container>
@@ -85,8 +77,8 @@ function SearchBox() {
               onKeyPress={(e) => {
                 e.key === "Enter"
                   ? text.length > 1
-                    ? hitClick()
-                    : history.push('/')
+                    ? history.push(`/searchresult/${text}`)
+                    : history.push("/")
                   : console.log("else of ternary");
               }}
             />

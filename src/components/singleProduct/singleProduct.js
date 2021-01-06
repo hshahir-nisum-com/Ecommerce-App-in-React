@@ -5,7 +5,7 @@ import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-import { useDispatch, shallowEqual, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addtocart } from "../../redux/action/action";
 import { useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
