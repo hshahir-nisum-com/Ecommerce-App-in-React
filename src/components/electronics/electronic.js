@@ -14,13 +14,13 @@ function Electronic() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    async function fetchData() {
+    (async function() {
       if (data.length < 1) {
         const data = await fetchProduct();
         dispatch(fetchedData(data));
       }
-    }
-    fetchData();
+    })()
+    // fetchData();
   }, []);
 
   let myArr = data.filter(

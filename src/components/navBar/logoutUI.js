@@ -7,6 +7,7 @@ import Select from "@material-ui/core/Select";
 import { userNamePassword } from "../../redux/action/action";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { shallowEqual, useSelector } from "react-redux";
 
 const myStyles = makeStyles((theme) => ({
   formControl: {
@@ -27,26 +28,30 @@ function Logout() {
   const classes = myStyles();
   const history = useHistory();
   const dispatch = useDispatch();
-
+  const globalState = useSelector((state) => state, shallowEqual);
+  let { userName } = globalState.userName;
+  console.log(userName);
+  function handleInput(e) {
+    console.log("event :::", e.target.value);
+    if (e.target.value === "Logout") {
+      dispatch(userNamePassword(""));
+      setTimeout(() => {
+        history.push("/");
+      }, 1000);
+    }
+  }
   return (
     <div style={{ marginBottom: "10px", minWidth: 120 }}>
       <FormControl className={classes.linkText}>
-        <InputLabel
-          id="demo-simple-select-label"
-          
-        >
-          Shahir
-        </InputLabel>
+        <InputLabel id="demo-simple-select-label">{userName}</InputLabel>
         <Select
           disableUnderline
-          onClick={() => {
-            dispatch(userNamePassword(""));
-            setTimeout(() => {
-              history.push("/");
-            }, 1000);
+          onChange={(e) => {
+            handleInput(e);
           }}
         >
-          <MenuItem value={10}>Logout</MenuItem>
+          <MenuItem value={"Profile"}>Profile</MenuItem>
+          <MenuItem value={"Logout"}>Logout</MenuItem>
         </Select>
       </FormControl>
     </div>
@@ -54,4 +59,3 @@ function Logout() {
 }
 
 export default Logout;
- 

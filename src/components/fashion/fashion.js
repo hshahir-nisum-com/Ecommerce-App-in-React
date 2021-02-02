@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import fetchProduct from "../../apis/products/fetchProduct";
 import { fetchedData } from "../../redux/action/action";
 import Product from "../product/Products";
-
+ 
 function Fashion(props) {
   const getGridListCols = () => {
     if (isWidthUp("xl", props.width)) {
@@ -28,7 +28,6 @@ function Fashion(props) {
 
   const globalState = useSelector((state) => state, shallowEqual);
   let { data } = globalState.fetchedData;
-  console.log("from global State", data.length);
 
   const dispatch = useDispatch();
   useEffect(() => {

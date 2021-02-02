@@ -47,6 +47,8 @@ const MyStyle = makeStyles((theme) => ({
   cart: {
     padding: 10,
     position: "absolute",
+    fontSize:'40px',
+    marginTop : '5px'
   },
   span: {
     position: "absolute",

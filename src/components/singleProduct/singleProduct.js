@@ -12,6 +12,7 @@ import { useTheme } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
 import fetchProduct from "../../apis/products/fetchProduct";
 import { fetchedData } from "../../redux/action/action";
+import { useHistory } from "react-router-dom";
 
 const MyStyle = makeStyles(() => ({
   div: {
@@ -30,7 +31,7 @@ const MyStyle = makeStyles(() => ({
   },
   txtBox: {
     width: "40vw",
-    marginTop : '30px',
+    marginTop: "30px",
   },
   butButtonStyle: {
     margin: "0 auto",
@@ -61,6 +62,7 @@ function SingleProduct(props) {
   const classes = MyStyle();
   let { id } = useParams();
   const theme = useTheme();
+  const history = useHistory();
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const buttonProps = {
@@ -156,6 +158,12 @@ function SingleProduct(props) {
                 className={classes.buyButton}
                 size={buttonProps.size}
                 variant={buttonProps.variant}
+                onClick={() =>
+                  history.push({
+                    pathname: "/checkout",
+                    state: {},
+                  })
+                }
               >
                 Buy Now
               </Button>
@@ -172,4 +180,3 @@ function SingleProduct(props) {
 }
 
 export default SingleProduct;
-    

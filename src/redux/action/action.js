@@ -22,9 +22,17 @@ export const fetchedData = (data) => {
 };
 
 export const signup = (data) => {
-    console.log("data username",data)
+  console.log("data username", data);
   return {
     type: type.SIGNUP,
-    payLoad: { name : data.name, pass: data.pass },
+    payLoad: { name: data.name, pass: data.pass },
+  };
+};
+
+export const buyNow = (data) => {
+  console.log("buy Now action", data);
+  return {
+    type: type.BUYNOW,
+    payLoad: data,
   };
 };
