@@ -5,6 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const MyStyle = makeStyles(() => ({
   ProductBox: {
+    display : 'flex',
+    width :'fit-content',
     "&:hover": {
       boxShadow: "0px 0px 5px grey",
     },
@@ -14,9 +16,10 @@ const MyStyle = makeStyles(() => ({
   },
   container: {
     width: "250px",
-    height: "300px",
     padding: "10px 10px 10px 30px",
     margin: "0 auto",
+    display : 'flex',
+    flexDirection : "column",
   },
   img: {
     width: "220px",

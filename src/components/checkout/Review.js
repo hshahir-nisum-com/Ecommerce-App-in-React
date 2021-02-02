@@ -10,6 +10,13 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 import { shallowEqual, useSelector } from "react-redux";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addtocart } from "../../redux/action/action";
+
+
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -58,8 +65,13 @@ export default function Review({ location }) {
   const history = useHistory();
   const globalState = useSelector((state) => state, shallowEqual);
   const { name, add, cardTitle } = location.state;
-  let { id, price, quantity, totalPrice } = globalState.addToCart;
-  console.log("from global State", globalState.addToCart);
+  let { id, price, quantity, totalPrice, } = globalState.addToCart;
+  const dispatch = useDispatch();
+
+  async function apiProduct(temp) {
+    const data = await axios.delete(`http://localhost:8080/orderplaced/${temp}`);
+    console.log("from delete :::", data)
+  }
   return (
     <React.Fragment>
       <CssBaseline />
@@ -109,7 +121,18 @@ export default function Review({ location }) {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => {
+                onClick={async () => {
+                 await apiProduct(id)
+                 dispatch(
+                    addtocart({
+                      productDetail: {
+                        title : name,
+                        price,
+                        id,
+                      },
+                      quantity: 0,
+                    })
+                  );
                   history.push({
                     pathname: `/orderplaced/${id}`,
                     state: {

@@ -11,7 +11,6 @@ import { useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
 import fetchProduct from "../../apis/products/fetchProduct";
-import { fetchedData } from "../../redux/action/action";
 import { useHistory } from "react-router-dom";
 
 const MyStyle = makeStyles(() => ({
