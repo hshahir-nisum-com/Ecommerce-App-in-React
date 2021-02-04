@@ -2,6 +2,8 @@ var express = require("express");
 var app = express();
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
+const cookieParser  = require ('cookie-parser');
+
 // parse application/x-www-form-urlencoded;
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
@@ -18,8 +20,7 @@ const authRoutes = require("./Login/routes/index");
 // middleware
 app.use(express.static("public"));
 app.use(express.json());
-// view engine
-app.set("view engine", "ejs");
+app.use(cookieParser())
 
 // database connection
 const dbURI = "mongodb://localhost:27017/productData";

@@ -33,35 +33,45 @@ const MyStyle = makeStyles((theme) => ({
   },
 }));
 
-
 export default function SignIn() {
   const classes = MyStyle();
-  const [userName, setuserName] = useState("");
+  const [getemail, setgetemail] = useState("");
   const [password, setpassword] = useState("");
+  const [credentialErr , setcredentialErr] = useState("")
   const [flag, setflag] = useState();
   const [temp, setTemp] = useState(false);
   const dispatch = useDispatch();
   const data = useSelector((state) => state, shallowEqual);
- 
 
-  function checkCredential() {
-    console.log("userrrrrrrrrrrrr",data.userList)
-    let user = data.userList.userName.find(temp => temp === userName ? true : false)
-    let pass = data.userList.pass.find( temp => temp === password ? true : false)
+  async function checkCredential() {
     
-    setTemp(true);
-    if (
-      user !== undefined  &&
-      pass !== undefined
-    ) {
-      setflag(true);
-      dispatch(userNamePassword(userName));
-      setTimeout(() => {
-        history.push("/");
-      }, 1000);
-    } else {
-      setflag(false);
+    try {
+      const res = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email: getemail,
+          password: password,
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      const {errors} = data
+      console.log("abc :::::", errors);
+      if(errors)
+      {if (errors.email || errors.password) {
+        setcredentialErr(errors.email? errors.email : errors.password)
+        setflag(true)
+      }else(
+        setflag(false)
+      )}
+
+      if (data.user) {
+        history.push('/')
+      }
+    } catch (e) {
+      console.log("Err in Post /register :::", e);
     }
+
   }
   const history = useHistory();
   console.log("history", history);
@@ -84,7 +94,7 @@ export default function SignIn() {
             autoFocus
             variant="outlined"
             onChange={(e) => {
-              setuserName(e.target.value);
+              setgetemail(e.target.value);
             }}
           />
           <br />
@@ -117,15 +127,11 @@ export default function SignIn() {
             Login
           </Button>
 
-          {temp &&
-            (flag ? (
-              <span>
-                <Alert severity="success">Login is successfull</Alert>
-              </span>
-            ) : (
-              <Alert variant="filled" severity="error">
+          {
+            (flag && (
+              <Alert variant="filled" severity="error" className="errTag">
                 {" "}
-                wrong credentials — check it out!{" "}
+                wrong credentials — { credentialErr}{" "}
               </Alert>
             ))}
 

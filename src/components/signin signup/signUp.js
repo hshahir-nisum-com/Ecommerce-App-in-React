@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   TextField,
   Button,
@@ -9,7 +10,8 @@ import {
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
-import { signup } from "../../redux/action/action";
+import { useHistory } from "react-router-dom";
+
 const MyStyle = makeStyles((theme) => ({
   boxOutLine: {
     border: "1px solid black",
@@ -38,22 +40,42 @@ const MyStyle = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = MyStyle();
   const [firstName, setFirstName] = useState("");
+  const [getEmail, setgetEmail] = useState("");
   const [pass, setPass] = useState("");
-  const dispatch = useDispatch();
+  const history = useHistory();
 
-  function addCredentials() {
-    if (firstName.length > 0 && pass.length > 0) {
-      console.log("firstName", firstName);
-      console.log("pass", pass);
-      dispatch(
-        signup({
-          name: firstName,
-          pass: pass,
-        })
-      );
-    } else {
-      alert("email/passowrd is missing");
+
+  async function addCredentials() {
+    const emailError = document.querySelector(".email.error");
+    const passwordError = document.querySelector(".password.error");
+    emailError.textContent = ""
+    passwordError.textContent = ""
+
+    try {
+      const res = await fetch("http://localhost:8080/register", {
+        method: "POST",
+        body: JSON.stringify({
+          email: getEmail,
+          password: pass,
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      console.log("abc :::::", data.email);
+      if (data.email) {
+        emailError.textContent = data.email;
+      }
+      if (data.password) {
+        console.log("abc");
+        passwordError.textContent = data.password;
+      }
+      if (data.user) {
+        history.push('/')
+      }
+    } catch (e) {
+      console.log("Err in Post /register :::", e);
     }
+    
   }
 
   return (
@@ -101,7 +123,11 @@ export default function SignIn() {
                 name="email"
                 autoFocus
                 variant="outlined"
+                onChange={(e) => {
+                  setgetEmail(e.target.value);
+                }}
               />
+              <div class="email error"></div>
             </Grid>
             <br />
             <br />
@@ -119,21 +145,20 @@ export default function SignIn() {
                   setPass(e.target.value);
                 }}
               />
+              <div class="password error"></div>
             </Grid>
             <br />
             <br />
             <Grid item xs={12}>
-              <Link to="/" className={classes.linkStyle}>
-                <Button
-                  variant="contained"
-                  fullWidth
-                  color="primary"
-                  className={classes.btn}
-                  onClick={() => addCredentials()}
-                >
-                  Sign Up
-                </Button>
-              </Link>
+              <Button
+                variant="contained"
+                fullWidth
+                color="primary"
+                className={classes.btn}
+                onClick={async () => await addCredentials()}
+              >
+                Sign Up
+              </Button>
             </Grid>
             <Grid container justify="flex-end">
               <Grid item>
