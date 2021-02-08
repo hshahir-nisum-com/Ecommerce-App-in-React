@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 
@@ -10,13 +9,13 @@ const handleErr = (err) => {
   };
 
   // incorrect email
-  if (err.message === 'incorrect email') {
-    errors.email = 'That email is not registered';
+  if (err.message === "Incorrect Email") {
+    errors.email = "That email is not registered";
   }
 
   // incorrect password
-  if (err.message === 'incorrect password') {
-    errors.password = 'That password is incorrect';
+  if (err.message === "incorrect password") {
+    errors.password = "That password is incorrect";
   }
 
   if (err.code === 11000) {
@@ -32,39 +31,62 @@ const handleErr = (err) => {
 };
 
 const maxAge = 3 * 24 * 60 * 60;
+const secret = "first-token-app";
 const createToken = (id) => {
-  return jwt.sign({ id }, "first-token-app", {
+  return jwt.sign({ id }, secret, {
     expiresIn: maxAge,
   });
 };
 
 module.exports.register = async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
 
   try {
-    const user = await User.create({ email, password });
-    
+    const user = await User.create({ name, email, password });
+
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(201).json({ user: user._id, token: token });
+    res.status(201).json({ user: user._id, token });
   } catch (err) {
     const errors = handleErr(err);
     res.status(400).json(errors);
   }
 };
 
-module.exports.login = async(req, res) => {
+module.exports.login = async (req, res) => {
   const { email, password } = req.body;
-  try{
-    const user = await  User.login(email,password)
-    console.log("user :::",user)
-    res.status(200).json({ user: user._id });
-
-  }
-  catch (err){
-      const errors = handleErr(err)
-    res.status(400).json( errors );
-
+  try {
+    const user = await User.login(email, password);
+    const token = createToken(user._id);
+    res.status(200).json({ user, jwt: token });
+  } catch (err) {
+    const errors = handleErr(err);
+    res.status(400).json(errors);
   }
   res.send("login request");
+};
+
+module.exports.reset = async (req, res) => {
+  const { email, oldPassword, newpassword } = req.body;
+  try {
+    const user = await User.forgetPass(email, oldPassword, newpassword);
+    res.status(200).json({ user });
+  } catch (err) {
+    const errors = handleErr(err);
+    res.status(400).json(errors);
+  }
+  res.send("reset request");
+};
+
+module.exports.me = async (req, res) => {
+  const { user, DOB, location } = req.body;
+
+  try {
+    const user = await User.profile(user._id, DOB, location);
+   return res.status(200).json({ user });
+  } catch (err) {
+    const errors = handleErr(err);
+   return res.status(400).json(errors);
+  }
+
 };

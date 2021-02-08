@@ -55,8 +55,11 @@ export default function SignIn() {
         headers: { "Content-Type": "application/json" },
       });
       const data = await res.json();
+      console.log("data :::::::",data)
+      localStorage.setItem("jwt",data.jwt)
+      localStorage.setItem("uName",data.user.name)
+
       const {errors} = data
-      console.log("abc :::::", errors);
       if(errors)
       {if (errors.email || errors.password) {
         setcredentialErr(errors.email? errors.email : errors.password)
@@ -66,6 +69,7 @@ export default function SignIn() {
       )}
 
       if (data.user) {
+        localStorage.setItem("jwt", data.jwt);
         history.push('/')
       }
     } catch (e) {
@@ -74,7 +78,6 @@ export default function SignIn() {
 
   }
   const history = useHistory();
-  console.log("history", history);
 
   return (
     <Container component="main" maxWidth="xs">

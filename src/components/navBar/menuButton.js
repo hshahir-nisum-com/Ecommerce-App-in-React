@@ -17,7 +17,7 @@ function MenuButton() {
   const { linkText } = myStyle();
 
   const globalState = useSelector((state) => state, shallowEqual);
-  let { userName } = globalState.userName;
+  let  userName  = localStorage.getItem('uName')
   console.log("usr Name", userName);
 
   const navLinks = [
@@ -28,7 +28,7 @@ function MenuButton() {
     {
       title: "Login / Signup",
       path: "/login",
-      flag: userName.length > 1 ? true : false,
+      flag: userName ? true : false,
     },
   ];
 

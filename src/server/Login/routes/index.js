@@ -1,12 +1,18 @@
-const router = require('express').Router();
-const userController = require('../controller/authController');
+const router = require("express").Router();
+const userController = require("../controller/authController");
+const tokenAuth = require("../middlewares/index");
 
 // Register a new User
-router.post('/register', userController.register);
+router.post("/register", userController.register);
 
 // Login
-router.post('/login', userController.login);
+router.post("/login", userController.login);
 
-// router.post('/login', authController.login_post);
+// forgetPass
+router.put("/forgetPassword", userController.reset);
+
+//profile
+router.put("/me", tokenAuth, userController.me);
+
 
 module.exports = router;

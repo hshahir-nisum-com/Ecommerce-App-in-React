@@ -27,17 +27,15 @@ const myStyles = makeStyles((theme) => ({
 function Logout() {
   const classes = myStyles();
   const history = useHistory();
-  const dispatch = useDispatch();
-  const globalState = useSelector((state) => state, shallowEqual);
-  let { userName } = globalState.userName;
-  console.log(userName);
+  let  userName  = localStorage.getItem('uName')
+
   function handleInput(e) {
     console.log("event :::", e.target.value);
     if (e.target.value === "Logout") {
-      dispatch(userNamePassword(""));
-      setTimeout(() => {
-        history.push("/");
-      }, 1000);
+      localStorage.removeItem("jwt");
+      localStorage.removeItem("uName");
+      window.location.reload(false)
+      history.push("/")
     }
   }
   return (
@@ -50,7 +48,6 @@ function Logout() {
             handleInput(e);
           }}
         >
-          <MenuItem value={"Profile"}>Profile</MenuItem>
           <MenuItem value={"Logout"}>Logout</MenuItem>
         </Select>
       </FormControl>

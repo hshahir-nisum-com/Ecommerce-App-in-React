@@ -39,34 +39,40 @@ const MyStyle = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = MyStyle();
-  const [firstName, setFirstName] = useState("");
+  const [fName, setfName] = useState("");
   const [getEmail, setgetEmail] = useState("");
   const [pass, setPass] = useState("");
   const history = useHistory();
 
 
   async function addCredentials() {
+    const nameError = document.querySelector(".name.error");
     const emailError = document.querySelector(".email.error");
     const passwordError = document.querySelector(".password.error");
     emailError.textContent = ""
     passwordError.textContent = ""
-
+    nameError.textContent = ""
+    
     try {
       const res = await fetch("http://localhost:8080/register", {
         method: "POST",
         body: JSON.stringify({
+          name : fName,
           email: getEmail,
           password: pass,
         }),
         headers: { "Content-Type": "application/json" },
       });
       const data = await res.json();
-      console.log("abc :::::", data.email);
+      console.log("data :::::", data);
+      if (data.name) {
+        nameError.textContent = data.name;
+      }
       if (data.email) {
         emailError.textContent = data.email;
       }
       if (data.password) {
-        console.log("abc");
+        console.log("abc ::::::::",data);
         passwordError.textContent = data.password;
       }
       if (data.user) {
@@ -97,9 +103,10 @@ export default function SignIn() {
                 label="First Name"
                 autoFocus
                 onChange={(e) => {
-                  setFirstName(e.target.value);
+                  setfName(e.target.value);
                 }}
               />
+              <div class="name error"></div>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
