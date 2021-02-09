@@ -62,6 +62,8 @@ function SingleProduct(props) {
   let { id } = useParams();
   const theme = useTheme();
   const history = useHistory();
+  const token = localStorage.getItem("jwt");
+  console.log("token :::::::", token);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const buttonProps = {
@@ -152,20 +154,37 @@ function SingleProduct(props) {
                 Add to Cart
               </Button>
 
-              <Button
-                color="primary"
-                className={classes.buyButton}
-                size={buttonProps.size}
-                variant={buttonProps.variant}
-                onClick={() =>
-                  history.push({
-                    pathname: "/checkout",
-                    state: {},
-                  })
-                }
-              >
-                Buy Now
-              </Button>
+              {token ? (
+                <Button
+                  color="primary"
+                  className={classes.buyButton}
+                  size={buttonProps.size}
+                  variant={buttonProps.variant}
+                  onClick={() =>
+                    history.push({
+                      pathname: "/checkout",
+                      state: {},
+                    })
+                  }
+                >
+                  Buy Now
+                </Button>
+              ) : (
+                <Button
+                  color="primary"
+                  className={classes.buyButton}
+                  size={buttonProps.size}
+                  variant={buttonProps.variant}
+                  onClick={() =>
+                    history.push({
+                      pathname: "/login",
+                      state: {},
+                    })
+                  }
+                >
+                  Buy Now
+                </Button>
+              )}
             </Box>
           </Box>
         </Box>

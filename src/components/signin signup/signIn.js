@@ -9,8 +9,6 @@ import {
 import { Alert } from "@material-ui/lab";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch, shallowEqual, useSelector } from "react-redux";
-import { userNamePassword } from "../../redux/action/action";
 import { useHistory } from "react-router-dom";
 
 const MyStyle = makeStyles((theme) => ({
@@ -39,12 +37,13 @@ export default function SignIn() {
   const [password, setpassword] = useState("");
   const [credentialErr , setcredentialErr] = useState("")
   const [flag, setflag] = useState();
-  const [temp, setTemp] = useState(false);
-  const dispatch = useDispatch();
-  const data = useSelector((state) => state, shallowEqual);
 
   async function checkCredential() {
     
+    
+    const emailError = document.querySelector(".email.error");
+    const passwordError = document.querySelector(".password.error");
+   
     try {
       const res = await fetch("http://localhost:8080/login", {
         method: "POST",
@@ -56,20 +55,19 @@ export default function SignIn() {
       });
       const data = await res.json();
       console.log("data :::::::",data)
-      localStorage.setItem("jwt",data.jwt)
-      localStorage.setItem("uName",data.user.name)
 
-      const {errors} = data
-      if(errors)
-      {if (errors.email || errors.password) {
-        setcredentialErr(errors.email? errors.email : errors.password)
+      
+      if(data)
+      {if (data.email || data.password) {
+        setcredentialErr(data.email? data.email : data.password)
         setflag(true)
       }else(
         setflag(false)
       )}
 
       if (data.user) {
-        localStorage.setItem("jwt", data.jwt);
+      localStorage.setItem("jwt",data.jwt)
+      localStorage.setItem("uName",data.user.name)
         history.push('/')
       }
     } catch (e) {
@@ -90,7 +88,7 @@ export default function SignIn() {
             required
             fullWidth
             id="standard-basic email"
-            label="User Name"
+            label="Email"
             type="text"
             name="text"
             autoComplete="text"
@@ -100,7 +98,8 @@ export default function SignIn() {
               setgetemail(e.target.value);
             }}
           />
-          <br />
+          <div class="name error"></div>
+
           <br />
           <TextField
             required
@@ -116,7 +115,8 @@ export default function SignIn() {
               setpassword(e.target.value);
             }}
           />
-          <br />
+          <div class="password error"></div>
+
           <br />
           <Button
             variant="contained"
@@ -140,7 +140,7 @@ export default function SignIn() {
 
           <Grid container>
             <Grid item xs>
-              <Link to="#" variant="body2">
+              <Link to="/forgetPassword" variant="body2">
                 Forgot password?
               </Link>
             </Grid>

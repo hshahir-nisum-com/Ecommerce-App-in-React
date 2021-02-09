@@ -23,7 +23,7 @@ function Timer() {
   const classes = MyStyle();
   //cal time function
   const calculateTimeLeft = () => {
-    const difference = +new Date("2021-01-12") - +new Date();
+    const difference = +new Date("2021-03-12") - +new Date();
     let timeLeft = {};
     if (difference) {
       timeLeft = {
