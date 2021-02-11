@@ -13,6 +13,8 @@ app.use(bodyParser.json());
 const authRoutes = require("./routes/auth");
 const product = require("./routes/product");
 const index = require("./routes/index");
+const addToCart = require("./routes/addToCart");
+
 
 // middleware
 app.use(express.static(path.join(__dirname, "../client/build")));
@@ -22,6 +24,7 @@ app.use(cors());
 // app.use(db)
 
 // routes
+app.use(addToCart);
 app.use(authRoutes);
 app.use(product);
 app.use(index);

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
 
 // database connection
-const dbURI = "mongodb://localhost:27017/productData";
+const dbURI = "mongodb+srv://shahir:123@e-commercedb.rdkti.mongodb.net/ecommercedata?retryWrites=true&w=majority";
 mongoose.connect(dbURI);

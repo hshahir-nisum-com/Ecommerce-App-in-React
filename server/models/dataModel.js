@@ -1,15 +1,25 @@
 const mongoose = require("mongoose");
 
 
-var data = mongoose.Schema({
-    category: String,
-    description: String,
-    id: Number,
-    image: String,
-    price: Number,
-    title: String,
-  });
+var productSchema = mongoose.Schema({
+  id: Number,
+  title: String,
+  price: Number,
+  description: String,
+  categoryID: String,
+  Quantity: Number,
+  image: String,
+});
+var categorySchema = mongoose.Schema({
+  categoryID: String,
+  category: String,
+});
+
+var products = mongoose.model("products", productSchema);
+var categories = mongoose.model("categories", categorySchema);
   
-var tempData = mongoose.model("datas", data);
-  
-module.exports = tempData
+module.exports =  {
+  products,
+  categories
+}
+ 

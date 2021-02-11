@@ -1,0 +1,18 @@
+[
+    {
+        "categoryID" : "1-menCat",
+        "category" : "men clothing"
+    },
+    {
+        "categoryID" : "2-fashCat",
+        "category" : "fashion"
+    },
+    {
+        "categoryID" : "3-el",
+        "category" : "electronics"
+    },
+    {
+        "categoryID" : "4-woCat",
+        "category" : "women clothing"
+    }
+]
