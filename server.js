@@ -5,6 +5,10 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const path = require("path");
 const db = require("./db");
+const dotenv = require('dotenv');
+dotenv.config();
+
+
 // parse application/x-www-form-urlencoded;
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
@@ -17,7 +21,7 @@ const addToCart = require("./routes/addToCart");
 
 
 // middleware
-app.use(express.static(path.join(__dirname, "../client/build")));
+app.use(express.static(path.join(__dirname, "./client/build")));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
@@ -29,6 +33,6 @@ app.use(authRoutes);
 app.use(product);
 app.use(index);
 
-app.listen(8080, () => {
+app.listen(process.env.PORT, () => {
   console.log("server is up");
 });
