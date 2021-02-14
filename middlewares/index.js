@@ -7,7 +7,6 @@ module.exports = function (req, res, next) {
   try {
     decoded = jwt.verify(token, "first-token-app");
     req.body.user = decoded;
-    console.log("req ::::::::::::::::::::", req.body)
     next()
   } catch (e) {
     return res.status(401).send("unauthorized");

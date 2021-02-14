@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   IconButton,
@@ -12,7 +12,9 @@ import SearchIcon from "@material-ui/icons/Search";
 import { Link } from "react-router-dom";
 import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-
+import fetchCart from "../../apis/products/fetchCartValue";
+import { useDispatch } from "react-redux";
+import { addtocart } from "../../redux/action/action";
 const MyStyle = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -47,8 +49,8 @@ const MyStyle = makeStyles((theme) => ({
   cart: {
     padding: 10,
     position: "absolute",
-    fontSize:'40px',
-    marginTop : '5px'
+    fontSize: "40px",
+    marginTop: "5px",
   },
   span: {
     position: "absolute",
@@ -61,9 +63,24 @@ function SearchBox() {
   const history = useHistory();
   const data = useSelector((state) => state, shallowEqual);
   const [text, settext] = useState("");
-  console.log("data.addToCart ::::::::::::::::::",data.addToCart.quantity)
+  const [count, setCount] = useState(0);
+  const dispatch = useDispatch();
+
+  
+  useEffect(() => {
+    async function fetchData() {
+      let count = await fetchCart();
+      console.log("count :::::",count)
+      dispatch(addtocart(count));
+      
+      return count;
+    }
+    fetchData()
+  }, [dispatch])
+ 
   return (
     <Paper className={classes.ppr}>
+      
       <Container>
         <Grid container>
           <Grid item xs={9} sm={11}>

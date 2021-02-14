@@ -13,7 +13,6 @@ const initialState = {
 
  export  const addToCart = (state=initialState, action) => {
 
-   console.log("in reducer",action.payLoad)
    switch (action.type) {
      case type.addToCart: {
        return {

@@ -5,15 +5,15 @@ import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-import { useDispatch } from "react-redux";
-import { addtocart } from "../../redux/action/action";
 import { useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
 import fetchProduct from "../../apis/products/fetchProduct";
 import { useHistory } from "react-router-dom";
 import { shallowEqual, useSelector } from "react-redux";
-
+import { useDispatch } from "react-redux";
+import { addtocart } from "../../redux/action/action";
+import fetchCart from "../../apis/products/fetchCartValue";
 const MyStyle = makeStyles(() => ({
   div: {
     display: "flex",
@@ -65,15 +65,17 @@ function SingleProduct(props) {
   const history = useHistory();
   const token = localStorage.getItem("jwt");
   const globalState = useSelector((state) => state, shallowEqual);
-  let { quantity } = globalState.addToCart;
+  const dispatch = useDispatch();
+  console.log("global ::::", globalState.addToCart.quantity)
+  let {
+    quantity
+  } = globalState.addToCart
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const buttonProps = {
     variant: isSmallScreen ? "outlined" : "contained",
     size: isSmallScreen ? "small" : "large",
   };
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getData() {
@@ -90,6 +92,12 @@ function SingleProduct(props) {
   }
 
   const { image, title, price, description } = data_temp;
+
+  async function fetchData() {
+    let count = await fetchCart();
+
+    return count;
+  }
 
   return (
     <div style={{ marginTop: "150px" }}>
@@ -137,27 +145,23 @@ function SingleProduct(props) {
                 color="primary"
                 className={classes.buyButton}
                 onClick={async () => {
-                  dispatch(addtocart(count));
-                  console.log(
-                    "quantity ::::::::::::::::::::::::::::::::::::::::::::::",
-                    globalState.addToCart
-                  );
-
                   if (count > 0) {
+                    let userid = localStorage.getItem("userID");
                     await fetch("http://localhost:8080/addtocart", {
-                      method: "POST",
+                      method: "PUT",
                       body: JSON.stringify({
-                        products: [
-                          {
-                            productId: id,
-                            name: title,
-                            price: price,
-                            quantity: count,
-                          },
-                        ],
+                        userid,
+                        products: {
+                          productId: id,
+                          name: title,
+                          price: price,
+                          quantity: count,
+                        },
                       }),
                       headers: { "Content-Type": "application/json" },
                     });
+                  dispatch(addtocart(await fetchData()));
+
                   }
                 }}
                 size={buttonProps.size}

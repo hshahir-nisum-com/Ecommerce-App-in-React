@@ -9,6 +9,8 @@ import React, { useEffect } from "react";
 import { useDispatch} from "react-redux";
 import fetchProduct from './apis/products/fetchProduct';
 import { fetchedData } from "./redux/action/action";
+import { addtocart } from "./redux/action/action";
+import fetchCart from "./apis/products/fetchCartValue";
 
 
 
@@ -22,6 +24,14 @@ function App() {
       dispatch( fetchedData(data))
     }
     fetchData();
+    async function fetchData() {
+      let count = await fetchCart();
+      console.log("count :::::",count)
+      dispatch(addtocart(count));
+      
+      return count;
+    }
+    fetchData()
   }, []);
 
 

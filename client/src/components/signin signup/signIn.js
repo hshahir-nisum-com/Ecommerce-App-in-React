@@ -68,6 +68,7 @@ export default function SignIn() {
       if (data.user) {
       localStorage.setItem("jwt",data.jwt)
       localStorage.setItem("uName",data.user.name)
+      localStorage.setItem("userID",data.user._id)
         history.push('/')
       }
     } catch (e) {

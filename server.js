@@ -18,6 +18,8 @@ const authRoutes = require("./routes/auth");
 const product = require("./routes/product");
 const index = require("./routes/index");
 const addToCart = require("./routes/addToCart");
+const checkQuanity = require("./routes/cartQuantity");
+
 
 
 // middleware
@@ -28,10 +30,12 @@ app.use(cors());
 // app.use(db)
 
 // routes
+app.use(checkQuanity);
 app.use(addToCart);
 app.use(authRoutes);
 app.use(product);
 app.use(index);
+
 
 app.listen(process.env.PORT, () => {
   console.log("server is up");

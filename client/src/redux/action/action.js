@@ -8,6 +8,7 @@ export const userNamePassword = (usr) => {
 };
 
 export const addtocart = (data) => {
+  console.log("addd to cart" , data)
   return {
     type: type.addToCart,
     payLoad: data,

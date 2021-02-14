@@ -34,6 +34,7 @@ function Logout() {
     if (e.target.value === "Logout") {
       localStorage.removeItem("jwt");
       localStorage.removeItem("uName");
+      localStorage.removeItem("userID")
       window.location.reload(false)
       history.push("/")
     }

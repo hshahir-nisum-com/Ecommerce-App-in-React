@@ -6,7 +6,6 @@ const initialState = {
 };
 
 export const userList = (state = initialState, action) => {
-    console.log("actionnnnnnnn",action.payLoad)
   
   switch (action.type) {
     case type.SIGNUP: {

@@ -32,14 +32,11 @@ app.use(bodyParser.json());
 
 app.post("/signup", function (req, res, next) {
   const { firstname, email, password } = req.body;
-  console.log("Request Url:" + req.url);
-  console.log(req.body);
   User.findOne({ email: req.body.email }, function (err, users) {
     if (err) console.log(err);
 
     // object of all the users
 
-    console.log(users);
     if (users) {
       res.status(408).send();
     } else {
@@ -53,7 +50,6 @@ app.post("/signup", function (req, res, next) {
         if (err) throw err;
 
         res.send("User has been Saved!!!");
-        console.log("User has been Saved!!!");
       });
     }
   });

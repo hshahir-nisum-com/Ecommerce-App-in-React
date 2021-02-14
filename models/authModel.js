@@ -63,7 +63,7 @@ userSchema.statics.forgetPass = async function (
     if (auth) {
       if(newpassword){
         userFound.password = newpassword;
-        const userUpdate = await userFound.save();;
+        const userUpdate = await userFound.save();
       return userUpdate;
     }
     throw Error("incorrect password");
@@ -82,7 +82,6 @@ userSchema.statics.profile = async function (userId, DOB, location) {
       { DOB, location },
       { new: true } 
     );
-    console.log("user :::::::", userUpdate);
     return userUpdate;
   }
   throw Error("Incorrect Email");

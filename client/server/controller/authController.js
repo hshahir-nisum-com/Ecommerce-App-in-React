@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/authModel");
 
 const handleErr = (err) => {
-  console.log(err.message, err.code);
   let errors = {
     email: "",
     oldPassword : "",

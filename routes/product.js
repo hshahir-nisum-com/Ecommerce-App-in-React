@@ -5,7 +5,6 @@ const {
 } = Product
 //getData
 router.get("/get", async function (req, res) {
-  console.log("products :::::::::::::::",Product)
   let getDatas = await products.aggregate([
     {
       $lookup: {
@@ -19,7 +18,6 @@ router.get("/get", async function (req, res) {
   },
   ]);
     
-  console.log(getDatas);
   res.send(getDatas);
 });
 
