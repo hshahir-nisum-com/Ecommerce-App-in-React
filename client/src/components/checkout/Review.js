@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
@@ -13,11 +13,6 @@ import { shallowEqual, useSelector } from "react-redux";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { addtocart } from "../../redux/action/action";
-
-
-
-
-
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -63,15 +58,49 @@ const useStyles = makeStyles((theme) => ({
 export default function Review({ location }) {
   const classes = useStyles();
   const history = useHistory();
+  const [getCart, setgetCart] = useState([]);
   const globalState = useSelector((state) => state, shallowEqual);
-  const { name, add, cardTitle } = location.state;
-  let { id, price, quantity, totalPrice, } = globalState.addToCart;
+  let { buyer, payment } = globalState.buyNow;
+  console.log("Buy NOW :::", globalState.buyNow);
   const dispatch = useDispatch();
-
-  async function apiProduct(temp) {
-    const data = await axios.delete(`http://localhost:8080/orderplaced/${temp}`);
-    console.log("from delete :::", data)
+  const {
+    buyerName,
+    buyerEmail,
+    buyerAddress,
+    CVV,
+    cardTitle,
+    cardNumber,
+  } = location.state;
+console.log("buyer Name",buyerName)
+  async function checkOurProduct() {
+    getCart.length > 1 && await fetch("http://localhost:8080/checkout", {
+      method: "POST",
+      body: JSON.stringify({
+        cartid: getCart.map(({ _id }) => _id),
+        userid: localStorage.getItem("userID"),
+        buyer: {
+          buyerName,
+          buyerEmail,
+          buyerAddress,
+        },
+        products: getCart[0].products.map((products) => products),
+        payment: {
+          CVV,
+          cardTitle,
+          cardNumber,
+        },
+      }),
+      headers: { "Content-Type": "application/json" },
+    });
   }
+  useEffect(() => {
+    async function getCartProducts() {
+      const res = await axios.get("http://localhost:8080/getCart", {});
+      setgetCart(res.data);
+      console.log("setgetCart :::", res.data);
+    }
+    getCartProducts();
+  }, []);
   return (
     <React.Fragment>
       <CssBaseline />
@@ -82,28 +111,39 @@ export default function Review({ location }) {
             Order summary
           </Typography>
           <List disablePadding>
-            <ListItem className={classes.listItem}>
-              Product Name:{" "}
-              <ListItemText primary={globalState.addToCart.name} />
-              <Typography variant="body2">{price} $</Typography>
-            </ListItem>
+            {getCart.length > 0 &&
+              getCart[0].products.map(
+                ({ name, price, productID, quantity }, ind) => {
+                  return (
+                    <span key={ind}>
+                      <ListItem className={classes.listItem}>
+                        Product Name: <ListItemText primary={name} />
+                        <Typography variant="body2">{price} $</Typography>
+                      </ListItem>
 
-            <ListItem className={classes.listItem}>
-              <ListItemText primary={`Quantity :  ${quantity}`} />
-              <ListItemText primary={`Total  `} />
+                      <ListItem className={classes.listItem}>
+                        <ListItemText primary={`Quantity :  ${quantity}`} />
+                        <ListItemText primary={`Total  `} />
 
-              <Typography variant="subtitle1" className={classes.total}>
-                {totalPrice} $
-              </Typography>
-            </ListItem>
+                        <Typography
+                          variant="subtitle1"
+                          className={classes.total}
+                        >
+                          {parseInt(price) * parseInt(quantity)} $
+                        </Typography>
+                      </ListItem>
+                    </span>
+                  );
+                }
+              )}
           </List>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <Typography variant="h6" gutterBottom className={classes.title}>
                 Shipping
               </Typography>
-              <Typography gutterBottom>{name}</Typography>
-              <Typography gutterBottom>{add}</Typography>
+              <Typography gutterBottom>{}</Typography>
+              <Typography gutterBottom>{"add"}</Typography>
             </Grid>
             <Grid item container direction="column" xs={12} sm={6}>
               <Typography variant="h6" gutterBottom className={classes.title}>
@@ -111,7 +151,7 @@ export default function Review({ location }) {
               </Typography>
               <Grid container>
                 <React.Fragment>
-                  <Typography gutterBottom>{cardTitle}</Typography>
+                  <Typography gutterBottom>{"cardTitle"}</Typography>
                 </React.Fragment>
               </Grid>
             </Grid>
@@ -122,25 +162,8 @@ export default function Review({ location }) {
                 variant="contained"
                 color="primary"
                 onClick={async () => {
-                 await apiProduct(id)
-                 dispatch(
-                    addtocart({
-                      productDetail: {
-                        title : name,
-                        price,
-                        id,
-                      },
-                      quantity: 0,
-                    })
-                  );
-                  history.push({
-                    pathname: `/orderplaced/${id}`,
-                    state: {
-                      name,
-                      add,
-                      cardTitle,
-                    },
-                  });
+                  await checkOurProduct();
+                  history.push("/")
                 }}
                 className={classes.button}
               >

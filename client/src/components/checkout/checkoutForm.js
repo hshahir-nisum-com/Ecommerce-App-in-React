@@ -2,19 +2,15 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { buyNow } from "../../redux/action/action";
 
 const useStyles = makeStyles((theme) => ({
-  appBar: {
-    position: "relative",
-  },
   layout: {
     width: "auto",
     marginLeft: theme.spacing(2),
@@ -36,9 +32,7 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(3),
     },
   },
-  stepper: {
-    padding: theme.spacing(3, 0, 5),
-  },
+
   buttons: {
     display: "flex",
     justifyContent: "flex-end",
@@ -49,16 +43,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = ["Shipping address", "Payment details", "Review your order"];
-
-export default function Checkout() {
+export default function Checkout({ location }) {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
   const [name, setName] = React.useState("");
+  const [email, setemail] = React.useState("");
   const [add, setAdd] = React.useState("");
   const history = useHistory();
-
-
+  const dispatch = useDispatch();
 
   return (
     <React.Fragment>
@@ -69,13 +60,7 @@ export default function Checkout() {
           <Typography component="h1" variant="h4" align="center">
             Checkout
           </Typography>
-          <Stepper activeStep={activeStep} className={classes.stepper}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
+
           <React.Fragment>
             <Typography variant="h6" gutterBottom>
               Shipping address
@@ -95,11 +80,12 @@ export default function Checkout() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
-                  id="lastName"
-                  name="lastName"
-                  label="Last name"
+                  id="Email"
+                  name="Email"
+                  label="Email"
                   fullWidth
                   autoComplete="family-name"
+                  onChange={(e) => setemail(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -107,7 +93,7 @@ export default function Checkout() {
                   required
                   id="address1"
                   name="address1"
-                  label="Address line 1"
+                  label="Enter your Address"
                   fullWidth
                   autoComplete="shipping address-line1"
                   onChange={(e) => setAdd(e.target.value)}
@@ -119,15 +105,16 @@ export default function Checkout() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={
-                    ()=>{
+                  onClick={() => {
                     history.push({
-                    pathname: "/payment",
-                    state: {
-                      name,
-                      add
-                    },
-                  })}}
+                      pathname: "/payment",
+                      state :{
+                        buyerName: name,
+                        buyerEmail: email,
+                        buyerAddress: add,
+                      }
+                    });
+                  }}
                   className={classes.button}
                 >
                   Next

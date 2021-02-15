@@ -7,7 +7,7 @@ dotenv.config();
 //   mongoose.connect(dbURI);
 
 // database connection
-if (process.env.NODE_ENV == "development") {
+if (process.env.NODE_ENV == "production") {
   const dbURI = "mongodb://localhost:27017/productData";
   mongoose.connect(dbURI);
 } else {

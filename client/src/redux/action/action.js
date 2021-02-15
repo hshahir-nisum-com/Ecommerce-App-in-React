@@ -7,10 +7,10 @@ export const userNamePassword = (usr) => {
   };
 };
 
-export const addtocart = (data) => {
-  console.log("addd to cart" , data)
+export const cartItem = (data) => {
+  console.log("cartItem::::" , data)
   return {
-    type: type.addToCart,
+    type: type.cartItem,
     payLoad: data,
   };
 };

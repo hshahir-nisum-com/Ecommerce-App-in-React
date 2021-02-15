@@ -12,7 +12,7 @@ import fetchProduct from "../../apis/products/fetchProduct";
 import { useHistory } from "react-router-dom";
 import { shallowEqual, useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { addtocart } from "../../redux/action/action";
+import { cartItem } from "../../redux/action/action";
 import fetchCart from "../../apis/products/fetchCartValue";
 const MyStyle = makeStyles(() => ({
   div: {
@@ -66,10 +66,11 @@ function SingleProduct(props) {
   const token = localStorage.getItem("jwt");
   const globalState = useSelector((state) => state, shallowEqual);
   const dispatch = useDispatch();
-  console.log("global ::::", globalState.addToCart.quantity)
+  let userid = localStorage.getItem("userID");
   let {
-    quantity
-  } = globalState.addToCart
+    item
+  } = globalState.cartItem
+  console.log("globalState :::",globalState)
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const buttonProps = {
@@ -91,13 +92,9 @@ function SingleProduct(props) {
     data_temp = filteredResult[0];
   }
 
-  const { image, title, price, description } = data_temp;
+  const { image, title, price, description   } = data_temp;
 
-  async function fetchData() {
-    let count = await fetchCart();
-
-    return count;
-  }
+ 
 
   return (
     <div style={{ marginTop: "150px" }}>
@@ -144,31 +141,25 @@ function SingleProduct(props) {
                 variant={buttonProps.variant}
                 color="primary"
                 className={classes.buyButton}
-                onClick={async () => {
-                  if (count > 0) {
-                    let userid = localStorage.getItem("userID");
-                    await fetch("http://localhost:8080/addtocart", {
-                      method: "PUT",
-                      body: JSON.stringify({
-                        userid,
-                        products: {
-                          productId: id,
-                          name: title,
-                          price: price,
-                          quantity: count,
-                        },
-                      }),
-                      headers: { "Content-Type": "application/json" },
-                    });
-                  dispatch(addtocart(await fetchData()));
+                onClick={() => {
+                  console.log("data_temp.id",data_temp.id)
+                  console.log("count",count)
+                  console.log("name ",title)
+                  console.log("price",price)
 
-                  }
+                  dispatch(cartItem({
+                    productId : data_temp.id,
+                    quantity : count,
+                    name : title,
+                    price 
+                  }))
+                  console.log("cart item", cartItem)
                 }}
                 size={buttonProps.size}
               >
                 Add to Cart
               </Button>
-              {quantity > 0 ? (
+              {item.length > 0 ? (
                 <span>
                   {token ? (
                     <Button
@@ -176,12 +167,24 @@ function SingleProduct(props) {
                       className={classes.buyButton}
                       size={buttonProps.size}
                       variant={buttonProps.variant}
-                      onClick={() =>
-                        history.push({
+                      onClick={async () => {
+                        if (count > 0) {
+                          await fetch("http://localhost:8080/addtocart", {
+                            method: "PUT",
+                            body: JSON.stringify({
+                              userid,
+                              products:item,
+                            }),
+                            headers: { "Content-Type": "application/json" },
+                          });
+                        }
+                         history.push({
                           pathname: "/checkout",
-                          state: {},
-                        })
-                      }
+                          state: {
+                            userid,
+                          },
+                        }); 
+                      }}
                     >
                       Buy Now
                     </Button>

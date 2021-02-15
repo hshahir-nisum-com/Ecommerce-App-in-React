@@ -1,16 +1,9 @@
 const router = require("express").Router();
-const CartModel = require("../models/addToCart");
+const CartModel = require("../models/cart");
 
 router.get("/checkquantity", async function (req, res) {
+  const userFind = await CartModel.find({});
 
-
-  const userFind = await CartModel.find({
-    active: true, 
-  });
-
-
-   res.send( userFind);
-
-
+  res.send(userFind);
 });
 module.exports = router;

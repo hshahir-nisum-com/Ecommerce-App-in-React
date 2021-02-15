@@ -4,9 +4,8 @@ async function fetchCart() {
     .then((res) => res.json())
     .then((json) => (userFind = json));
 
-  console.log("userID UI ", localStorage.getItem("userID") , " userFind[i].userid ::",userFind[0].userid );
 
-  if (userFind.length > 1) {
+  if (userFind) {
     let count = 0;
     for (let i = 0; i < userFind.length; i++) {
       if (localStorage.getItem("userID") &&  userFind[i].userid === localStorage.getItem("userID")) {

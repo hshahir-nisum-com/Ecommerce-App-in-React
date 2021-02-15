@@ -14,7 +14,7 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import fetchCart from "../../apis/products/fetchCartValue";
 import { useDispatch } from "react-redux";
-import { addtocart } from "../../redux/action/action";
+import { cartItem } from "../../redux/action/action";
 const MyStyle = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -61,22 +61,29 @@ const MyStyle = makeStyles((theme) => ({
 function SearchBox() {
   const classes = MyStyle();
   const history = useHistory();
-  const data = useSelector((state) => state, shallowEqual);
+  const item = useSelector((state) => state.cartItem.item, shallowEqual);
   const [text, settext] = useState("");
   const [count, setCount] = useState(0);
+  const [cartQuantity, setCartQuantity] = useState(0)
   const dispatch = useDispatch();
+  useEffect(() => {
+    const updatedCartQuantity = item.reduce((total, { quantity}) => {
+      return parseInt(quantity) + parseInt(total)
+      }, 0);
+      setCartQuantity(updatedCartQuantity);
+  }, [item])
 
   
-  useEffect(() => {
-    async function fetchData() {
-      let count = await fetchCart();
-      console.log("count :::::",count)
-      dispatch(addtocart(count));
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     let count = await fetchCart();
+  //     console.log("count :::::",count)
+  //     dispatch(addtocart(count));
       
-      return count;
-    }
-    fetchData()
-  }, [dispatch])
+  //     return count;
+  //   }
+  //   fetchData()
+  // }, [dispatch])
  
   return (
     <Paper className={classes.ppr}>
@@ -122,7 +129,7 @@ function SearchBox() {
               fontSize="large"
               className={classes.cart}
             />
-            <span className={classes.span}>{data.addToCart.quantity}</span>
+            <span className={classes.span}>{cartQuantity}</span>
           </div>
         </Grid>
       </Container>

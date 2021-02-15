@@ -1,15 +1,16 @@
-import {addToCart} from './addToCartReducer';
+import {cartItem} from './addToCartReducer';
 import {userName} from './userName';
 import { combineReducers } from 'redux'
 import {fetchedData} from './fetchedData';
 import {userList} from './signupReducer'
+import {buyNow} from './buyNow'
 
-console.log("combine reducer",addToCart)
 const rootReducer = combineReducers({
-    addToCart,
+   cartItem,
     userName,
     fetchedData,
-    userList
+    userList,
+    buyNow
  })
     
     export default rootReducer;

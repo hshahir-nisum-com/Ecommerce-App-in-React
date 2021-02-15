@@ -1,6 +1,6 @@
 export const type = {
     userNamePassword : 'userNamePassword',
-    addToCart : 'addToCart',
+    cartItem : 'cartItem',
     fetchedData : 'fetchedData',
     SIGNUP : 'signup',
     BUYNOW : 'BUYNOW'

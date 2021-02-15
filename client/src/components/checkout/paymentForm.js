@@ -7,6 +7,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
+import { useDispatch } from "react-redux";
+import { buyNow } from "../../redux/action/action";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -46,9 +48,11 @@ const useStyles = makeStyles((theme) => ({
 export default function PaymentForm({ location }) {
   const classes = useStyles();
   const history = useHistory();
-  const { name, add } = location.state;
-  console.log("name :::::", name);
-  const [ cardTitle, setCardTitle ] = useState("");
+  const [cardTitle, setCardTitle] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cvv, setCvv] = useState("");
+  const dispatch = useDispatch();
+  const { buyerName, buyerEmail, buyerAddress } = location.state;
   return (
     <React.Fragment>
       <CssBaseline />
@@ -79,15 +83,9 @@ export default function PaymentForm({ location }) {
                   label="Card number"
                   fullWidth
                   autoComplete="cc-number"
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  required
-                  id="expDate"
-                  label="Expiry date"
-                  fullWidth
-                  autoComplete="cc-exp"
+                  onChange={(e) => {
+                    setCardNumber(e.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -97,7 +95,10 @@ export default function PaymentForm({ location }) {
                   label="CVV"
                   helperText="Last three digits on signature strip"
                   fullWidth
-                  autoComplete="cc-csc"
+                  autoComplete="cc-number"
+                  onChange={(e) => {
+                    setCvv(e.target.value);
+                  }}
                 />
               </Grid>
             </Grid>
@@ -107,13 +108,22 @@ export default function PaymentForm({ location }) {
                   variant="contained"
                   color="primary"
                   onClick={() => {
+                    dispatch(
+                      buyNow({
+                        
+                      })
+                    );
                     history.push({
                       pathname: "/reviewForm",
-                      state: {
-                        name,
-                        add,
-                        cardTitle,
-                      },
+                        state : {
+                        buyerName,
+                        buyerEmail,
+                        buyerAddress,
+                        CVV: cvv,
+                        cardTitle: cardTitle,
+                        cardNumber: cardNumber,
+                        }
+                      
                     });
                   }}
                   className={classes.button}

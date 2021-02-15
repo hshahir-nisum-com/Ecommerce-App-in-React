@@ -1,30 +1,52 @@
-
 import { type } from "../action/typeOfAction";
 
-
 const initialState = {
-  name : "",
-  address : "",
-  product : [],
-  TotalPrice : 0,
-  cardType : "",
-  CardHolderName : "",
+  buyer: {
+    buyerName: "",
+    buyerEmail: "",
+    buyerAddress: "",
+  },
+  products: {
+    productId: 0,
+    quantity: 0,
+    name: "",
+    price: 0,
+  },
+  payment: {
+    CVV: "",
+    cardTitle: "",
+    cardNumber : ""
+  },
 };
 
- export  const addToCart = (state=initialState, action) => {
-
-   switch (action.type) {
-     case type.addToCart: {
-       return {
-         ...state,
-           name : action.payLoad.productDetail.title,
-           quantity : state.quantity + action.payLoad.quantity,
-           price : parseInt(action.payLoad.productDetail.price),
-           totalPrice : parseInt(action.payLoad.productDetail.price) * (state.quantity + action.payLoad.quantity),
-           id : action.payLoad.id,
-       };
-     }
-     default:
-       return state;
-   }
- };
+export const buyNow = (state = initialState, action) => {
+  console.log("buyNowreducer ", action)
+  switch (action.type) {
+    case type.buyNow: {
+      return {
+        ...state,
+        buyer: {
+          ...state.buyer,
+          buyerName: action.payLoad.buyerName,
+          buyerEmail: action.payLoad.buyerEmail,
+          buyerAddress: action.payLoad.buyerAddress,
+        },
+        products: {
+          ...state.products,
+          productId: action.payLoad.productId,
+          quantity: action.payLoad.quantity,
+          name: action.payLoad.productName,
+          price: action.payLoad.price,
+        },
+        payment: {
+          ...state.payment,
+          CVV: action.payLoad.CVV,
+          cardTitle : action.payLoad.cardTitle,
+          cardNumber : action.payLoad.cardNumber,
+        },
+      };
+    }
+    default:
+      return state;
+  }
+};
