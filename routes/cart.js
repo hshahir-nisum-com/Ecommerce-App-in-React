@@ -1,16 +1,15 @@
 const router = require("express").Router();
 const CartModel = require("../models/cart");
+const userAuth = require("../middlewares/index");
+const cartController = require("../controller/cartController");
 
 //getData
-router.put("/addtocart", async function (req, res) {
-  const { userid, products } = req.body;
+router.put("/addtocart", cartController.addtocart);
 
-  const cart = await CartModel.create({ userid, products });
-  return res.status(201).json({ cart: cart._id });
-});
-
-router.get("/getCart", async function (req, res) {
-  const cartProductTrue = await CartModel.find({});
+router.get("/getCart", userAuth, async function (req, res) {
+  const cartProductTrue = await CartModel.find({
+    user : req.body.user._id
+  });
   console.log("cartProductTrue :::", cartProductTrue);
 
   return res.status(200).json(cartProductTrue);

@@ -15,6 +15,7 @@ import { useHistory } from "react-router-dom";
 import fetchCart from "../../apis/products/fetchCartValue";
 import { useDispatch } from "react-redux";
 import { cartItem } from "../../redux/action/action";
+import CartModal from './cartModel';
 const MyStyle = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -40,6 +41,7 @@ const MyStyle = makeStyles((theme) => ({
 
   divForSpan: {
     position: "relative",
+    padding : "10px",
     marginLeft: "3px",
     "@media (max-width: 900px)": {
       marginLeft: "0px",
@@ -47,14 +49,15 @@ const MyStyle = makeStyles((theme) => ({
   },
 
   cart: {
-    padding: 10,
     position: "absolute",
     fontSize: "40px",
-    marginTop: "5px",
   },
   span: {
     position: "absolute",
-    marginLeft: "40px",
+    display : "block",
+    fontSize : "15px",
+    marginLeft: "45px",
+    marginBottom : "25px"
   },
 }));
 
@@ -63,31 +66,20 @@ function SearchBox() {
   const history = useHistory();
   const item = useSelector((state) => state.cartItem.item, shallowEqual);
   const [text, settext] = useState("");
-  const [count, setCount] = useState(0);
-  const [cartQuantity, setCartQuantity] = useState(0)
+  const [showModal, setshowModal] = useState(false);
+  const [cartQuantity, setCartQuantity] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    const updatedCartQuantity = item.reduce((total, { quantity}) => {
-      return parseInt(quantity) + parseInt(total)
-      }, 0);
-      setCartQuantity(updatedCartQuantity);
-  }, [item])
+    const updatedCartQuantity = item.reduce((total, { quantity }) => {
+      return parseInt(quantity) + parseInt(total);
+    }, 0);
+    console.log("updatedCartQuantity", updatedCartQuantity <= 0);
+    const temp =
+      updatedCartQuantity <= 0 ? null : setCartQuantity(updatedCartQuantity);
+  }, [item]);
 
-  
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     let count = await fetchCart();
-  //     console.log("count :::::",count)
-  //     dispatch(addtocart(count));
-      
-  //     return count;
-  //   }
-  //   fetchData()
-  // }, [dispatch])
- 
   return (
     <Paper className={classes.ppr}>
-      
       <Container>
         <Grid container>
           <Grid item xs={9} sm={11}>
@@ -124,13 +116,27 @@ function SearchBox() {
               <SearchIcon />
             </Link>
           </IconButton>
-          <div className={classes.divForSpan}>
-            <ShoppingCartOutlinedIcon
-              fontSize="large"
-              className={classes.cart}
-            />
-            <span className={classes.span}>{cartQuantity}</span>
+          <div className={classes.divForSpan}
+          onClick = {
+                ()=>{
+                  setshowModal(true)
+                }
+              }>
+            <IconButton
+              type="submit"
+              className={classes.iconButton}
+              aria-label="search"
+              
+            >
+              <ShoppingCartOutlinedIcon
+                fontSize="large"
+                className={classes.cart}
+              />
+              <span className={classes.span}>{cartQuantity}</span>
+            </IconButton>
           </div>
+          {showModal && <CartModal openModel={true} setshowModal={setshowModal}/>}
+
         </Grid>
       </Container>
     </Paper>

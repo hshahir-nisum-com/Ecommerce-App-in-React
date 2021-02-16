@@ -59,6 +59,7 @@ const MyStyle = makeStyles(() => ({
 function SingleProduct(props) {
   const [count, setcount] = useState(0);
   const [arr, setArr] = useState([]);
+  const [quantity, setQuantity] = useState(null);
   const classes = MyStyle();
   let { id } = useParams();
   const theme = useTheme();
@@ -67,10 +68,8 @@ function SingleProduct(props) {
   const globalState = useSelector((state) => state, shallowEqual);
   const dispatch = useDispatch();
   let userid = localStorage.getItem("userID");
-  let {
-    item
-  } = globalState.cartItem
-  console.log("globalState :::",globalState)
+  let { item } = globalState.cartItem;
+  console.log("globalState :::", globalState);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const buttonProps = {
@@ -83,6 +82,7 @@ function SingleProduct(props) {
       const data = await fetchProduct();
       setArr(data);
     }
+
     getData();
   }, []);
 
@@ -92,9 +92,7 @@ function SingleProduct(props) {
     data_temp = filteredResult[0];
   }
 
-  const { image, title, price, description   } = data_temp;
-
- 
+  const { image, title, price, description } = data_temp;
 
   return (
     <div style={{ marginTop: "150px" }}>
@@ -141,19 +139,30 @@ function SingleProduct(props) {
                 variant={buttonProps.variant}
                 color="primary"
                 className={classes.buyButton}
-                onClick={() => {
-                  console.log("data_temp.id",data_temp.id)
-                  console.log("count",count)
-                  console.log("name ",title)
-                  console.log("price",price)
-
-                  dispatch(cartItem({
-                    productId : data_temp.id,
-                    quantity : count,
-                    name : title,
-                    price 
-                  }))
-                  console.log("cart item", cartItem)
+                onClick={async () => {
+                  dispatch(
+                    cartItem({
+                      productId: data_temp.id,
+                      quantity: count,
+                      name: title,
+                      price,
+                    })
+                  );
+                  if (count > 0) {
+                    await fetch("http://localhost:8080/addtocart", {
+                      method: "PUT",
+                      body: JSON.stringify({
+                        userid,
+                        products: {
+                          productId: data_temp.id,
+                          quantity: count,
+                          name: title,
+                          price,
+                        },
+                      }),
+                      headers: { "Content-Type": "application/json" },
+                    });
+                  }
                 }}
                 size={buttonProps.size}
               >
@@ -168,22 +177,12 @@ function SingleProduct(props) {
                       size={buttonProps.size}
                       variant={buttonProps.variant}
                       onClick={async () => {
-                        if (count > 0) {
-                          await fetch("http://localhost:8080/addtocart", {
-                            method: "PUT",
-                            body: JSON.stringify({
-                              userid,
-                              products:item,
-                            }),
-                            headers: { "Content-Type": "application/json" },
-                          });
-                        }
-                         history.push({
+                        history.push({
                           pathname: "/checkout",
                           state: {
                             userid,
                           },
-                        }); 
+                        });
                       }}
                     >
                       Buy Now

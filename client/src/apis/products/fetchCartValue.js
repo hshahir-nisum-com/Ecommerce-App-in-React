@@ -1,23 +1,41 @@
-async function fetchCart() {
-  let userFind;
-  const data = await fetch("http://localhost:8080/checkquantity")
-    .then((res) => res.json())
-    .then((json) => (userFind = json));
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { cartItem } from "../../redux/action/action";
 
+async function FetchCart() {
+  const dispatch = useDispatch();
 
-  if (userFind) {
+  const userFind = await axios.get("http://localhost:8080/getCart", {
+    params: {
+      user: localStorage.getItem("userID"),
+    },
+  });
+  if (userFind.data.length) {
+    let { products } = userFind.data[0];
     let count = 0;
-    for (let i = 0; i < userFind.length; i++) {
-      if (localStorage.getItem("userID") &&  userFind[i].userid === localStorage.getItem("userID")) {
-        count = count + parseInt(userFind[i].products.quantity);
-        console.log("in IF :::", count);
 
-      }
+    for (let i = 0; i < products.length; i++) {
+      console.log("products[i] :::", products[i]);
+      // dispatch(
+      //   cartItem({
+      //     productId: data_temp.id,
+      //     quantity: count,
+      //     name: title,
+      //     price,
+      //   })
+      // );
+      // if (
+      //   localStorage.getItem("userID") &&
+      //   userFind.data[0].user === localStorage.getItem("userID")
+      // ) {
+      //   count = count + parseInt(products[i].quantity);
+      // }
     }
+
     return count;
   }
 
-  return 0;
+  return <div></div>;
 }
 
-export default fetchCart;
+export default FetchCart;
