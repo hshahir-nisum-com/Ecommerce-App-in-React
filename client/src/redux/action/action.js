@@ -7,14 +7,6 @@ export const userNamePassword = (usr) => {
   };
 };
 
-export const cartItem = (data) => {
-  console.log("cartItem::::" , data)
-  return {
-    type: type.cartItem,
-    payLoad: data,
-  };
-};
-
 export const fetchedData = (data) => {
   return {
     type: type.fetchedData,
@@ -33,6 +25,14 @@ export const buyNow = (data) => {
   console.log("buy Now action", data);
   return {
     type: type.BUYNOW,
+    payLoad: data,
+  };
+};
+
+export const cartItems = (data) => {
+  console.log("cartItem::::", data);
+  return {
+    type: type.cartItem,
     payLoad: data,
   };
 };

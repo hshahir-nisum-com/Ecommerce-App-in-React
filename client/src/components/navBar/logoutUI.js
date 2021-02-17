@@ -19,7 +19,7 @@ const myStyles = makeStyles((theme) => ({
   },
   linkText: {
     textTransform: `uppercase`,
-    color: `black`,
+    color: "white",
     minWidth: "100%",
   },
 }));
@@ -27,22 +27,24 @@ const myStyles = makeStyles((theme) => ({
 function Logout() {
   const classes = myStyles();
   const history = useHistory();
-  let  userName  = localStorage.getItem('uName')
+  let userName = localStorage.getItem("uName");
 
   function handleInput(e) {
     console.log("event :::", e.target.value);
     if (e.target.value === "Logout") {
       localStorage.removeItem("jwt");
       localStorage.removeItem("uName");
-      localStorage.removeItem("userID")
-      window.location.reload(false)
-      history.push("/")
+      localStorage.removeItem("userID");
+      window.location.reload(false);
+      history.push("/");
     }
   }
   return (
     <div style={{ marginBottom: "10px", minWidth: 120 }}>
-      <FormControl className={classes.linkText}>
-        <InputLabel id="demo-simple-select-label">{userName}</InputLabel>
+      <FormControl className={classes.linkText} style={{ color: "white" }}>
+        <InputLabel id="demo-simple-select-label" style={{ color: "white" }}>
+          {userName}
+        </InputLabel>
         <Select
           disableUnderline
           onChange={(e) => {

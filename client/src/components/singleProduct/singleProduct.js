@@ -12,8 +12,10 @@ import fetchProduct from "../../apis/products/fetchProduct";
 import { useHistory } from "react-router-dom";
 import { shallowEqual, useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { cartItem } from "../../redux/action/action";
-import fetchCart from "../../apis/products/fetchCartValue";
+import { cartItems } from "../../redux/action/action";
+
+import axios from "axios";
+
 const MyStyle = makeStyles(() => ({
   div: {
     display: "flex",
@@ -59,17 +61,16 @@ const MyStyle = makeStyles(() => ({
 function SingleProduct(props) {
   const [count, setcount] = useState(0);
   const [arr, setArr] = useState([]);
-  const [quantity, setQuantity] = useState(null);
   const classes = MyStyle();
   let { id } = useParams();
   const theme = useTheme();
   const history = useHistory();
   const token = localStorage.getItem("jwt");
-  const globalState = useSelector((state) => state, shallowEqual);
+  const cartItem = useSelector((state) => state.cartItem, shallowEqual);
+  const { item, totalCount } = cartItem;
+  console.log("totalCount :::", totalCount);
   const dispatch = useDispatch();
   let userid = localStorage.getItem("userID");
-  let { item } = globalState.cartItem;
-  console.log("globalState :::", globalState);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const buttonProps = {
@@ -77,7 +78,37 @@ function SingleProduct(props) {
     size: isSmallScreen ? "small" : "large",
   };
 
+  let data_temp = 0;
+  const filteredResult = arr.filter((temp) => temp.id == id);
+  if (filteredResult[0] != null) {
+    data_temp = filteredResult[0];
+  }
+
+  async function fetchCartVal() {
+    const getTotalCount = await axios.get(
+      "http://localhost:8080/gettotalcount",
+      {
+        headers: {
+          "auth-token": localStorage.getItem("jwt"),
+        },
+      }
+    );
+    const getTotalItem = await axios.get("http://localhost:8080/getcart", {
+      headers: {
+        "auth-token": localStorage.getItem("jwt"),
+      },
+    });
+    if (getTotalCount) {
+      dispatch(
+        cartItems({
+          item: getTotalItem.data.products,
+          count: getTotalCount.data.totalCount,
+        })
+      );
+    }
+  }
   useEffect(() => {
+    fetchCartVal();
     async function getData() {
       const data = await fetchProduct();
       setArr(data);
@@ -85,13 +116,6 @@ function SingleProduct(props) {
 
     getData();
   }, []);
-
-  let data_temp = 0;
-  const filteredResult = arr.filter((temp) => temp.id == id);
-  if (filteredResult[0] != null) {
-    data_temp = filteredResult[0];
-  }
-
   const { image, title, price, description } = data_temp;
 
   return (
@@ -140,14 +164,8 @@ function SingleProduct(props) {
                 color="primary"
                 className={classes.buyButton}
                 onClick={async () => {
-                  dispatch(
-                    cartItem({
-                      productId: data_temp.id,
-                      quantity: count,
-                      name: title,
-                      price,
-                    })
-                  );
+                  fetchCartVal();
+
                   if (count > 0) {
                     await fetch("http://localhost:8080/addtocart", {
                       method: "PUT",
@@ -168,9 +186,9 @@ function SingleProduct(props) {
               >
                 Add to Cart
               </Button>
-              {item.length > 0 ? (
+              {token ? (
                 <span>
-                  {token ? (
+                  {parseInt(totalCount) > 0 ? (
                     <Button
                       color="primary"
                       className={classes.buyButton}
@@ -193,12 +211,7 @@ function SingleProduct(props) {
                       className={classes.buyButton}
                       size={buttonProps.size}
                       variant={buttonProps.variant}
-                      onClick={() =>
-                        history.push({
-                          pathname: "/login",
-                          state: {},
-                        })
-                      }
+                      disabled
                     >
                       Buy Now
                     </Button>
@@ -210,7 +223,12 @@ function SingleProduct(props) {
                   className={classes.buyButton}
                   size={buttonProps.size}
                   variant={buttonProps.variant}
-                  disabled
+                  onClick={() =>
+                    history.push({
+                      pathname: "/login",
+                      state: {},
+                    })
+                  }
                 >
                   Buy Now
                 </Button>

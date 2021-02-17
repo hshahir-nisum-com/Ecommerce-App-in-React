@@ -14,8 +14,6 @@ import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import fetchCart from "../../apis/products/fetchCartValue";
 import { useDispatch } from "react-redux";
-import { cartItem } from "../../redux/action/action";
-import CartModal from './cartModel';
 const MyStyle = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -26,6 +24,7 @@ const MyStyle = makeStyles((theme) => ({
     marginTop: "75px",
     height: "55px",
     top: "100px",
+    borderRadius : "0px",
     "@media (max-width: 900px)": {
       marginTop: "55px",
     },
@@ -41,7 +40,7 @@ const MyStyle = makeStyles((theme) => ({
 
   divForSpan: {
     position: "relative",
-    padding : "10px",
+    padding: "10px",
     marginLeft: "3px",
     "@media (max-width: 900px)": {
       marginLeft: "0px",
@@ -54,29 +53,22 @@ const MyStyle = makeStyles((theme) => ({
   },
   span: {
     position: "absolute",
-    display : "block",
-    fontSize : "15px",
+    display: "block",
+    fontSize: "15px",
     marginLeft: "45px",
-    marginBottom : "25px"
+    marginBottom: "25px",
   },
 }));
 
 function SearchBox() {
   const classes = MyStyle();
   const history = useHistory();
-  const item = useSelector((state) => state.cartItem.item, shallowEqual);
+  const totalCount = useSelector(
+    (state) => state.cartItem.totalCount,
+    shallowEqual
+  );
   const [text, settext] = useState("");
-  const [showModal, setshowModal] = useState(false);
-  const [cartQuantity, setCartQuantity] = useState(null);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const updatedCartQuantity = item.reduce((total, { quantity }) => {
-      return parseInt(quantity) + parseInt(total);
-    }, 0);
-    console.log("updatedCartQuantity", updatedCartQuantity <= 0);
-    const temp =
-      updatedCartQuantity <= 0 ? null : setCartQuantity(updatedCartQuantity);
-  }, [item]);
+
 
   return (
     <Paper className={classes.ppr}>
@@ -101,7 +93,6 @@ function SearchBox() {
               }}
             />
           </Grid>
-          {console.log("hello text", text)}
           <IconButton
             type="submit"
             className={classes.iconButton}
@@ -116,27 +107,25 @@ function SearchBox() {
               <SearchIcon />
             </Link>
           </IconButton>
-          <div className={classes.divForSpan}
-          onClick = {
-                ()=>{
-                  setshowModal(true)
-                }
-              }>
+          <div
+            className={classes.divForSpan}
+            onClick={() => {
+              history.push("/orderListInCart")
+            }}
+          >
             <IconButton
               type="submit"
               className={classes.iconButton}
               aria-label="search"
-              
             >
               <ShoppingCartOutlinedIcon
                 fontSize="large"
                 className={classes.cart}
               />
-              <span className={classes.span}>{cartQuantity}</span>
+              <span className={classes.span}>{totalCount}</span>
             </IconButton>
           </div>
-          {showModal && <CartModal openModel={true} setshowModal={setshowModal}/>}
-
+          
         </Grid>
       </Container>
     </Paper>

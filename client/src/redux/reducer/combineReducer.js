@@ -4,7 +4,6 @@ import { combineReducers } from 'redux'
 import {fetchedData} from './fetchedData';
 import {userList} from './signupReducer'
 import {buyNow} from './buyNow'
-
 const rootReducer = combineReducers({
    cartItem,
     userName,

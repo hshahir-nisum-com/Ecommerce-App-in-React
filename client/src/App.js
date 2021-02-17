@@ -17,6 +17,7 @@ import payment from "./components/checkout/paymentForm";
 import reviews from "./components/checkout/Review";
 import placed from "./components/checkout/finished";
 import forgetPass from './components/signin signup/forgetPass';
+import OrderListInCart from './components/navBar/orderListinCart'
 
 
 function App() {
@@ -38,10 +39,8 @@ function App() {
         <Route exact path="/orderplaced/:id" component={placed} />
         <Route exact path="/forgetPassword" component={forgetPass} />
         <Route exact path="/reviewForm" component={reviews} />
+        <Route exact Path="/orderListInCart" component={OrderListInCart} />
         <Route exact Path="/payment" component={payment} />
-
-
-
         <Redirect to="/" />
       </Switch>
       <Footer />

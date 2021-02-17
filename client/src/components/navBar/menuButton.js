@@ -2,23 +2,22 @@ import { ListItem, makeStyles } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 import { shallowEqual, useSelector } from "react-redux";
-import Logout from './logoutUI'
+import Logout from "./logoutUI";
 
 const myStyle = makeStyles(() => ({
-  linkText: {
+  
+  linkButton : {
     textDecoration: "none !important",
     textTransform: `uppercase`,
     color: `white`,
-    width: "max-content",
-  },
+    margin : 'auto'
+  }
 }));
 
 function MenuButton() {
-  const { linkText } = myStyle();
-
-  const globalState = useSelector((state) => state, shallowEqual);
-  let  userName  = localStorage.getItem('uName')
-  console.log("usr Name", userName);
+  const { linkButton} = myStyle();
+  const globalState = useSelector((state) => state, shallowEqual)
+  let userName = localStorage.getItem("uName");
 
   const navLinks = [
     { title: "Men Clothing", path: "/menClothing", flag: false },
@@ -34,13 +33,13 @@ function MenuButton() {
 
   return navLinks.map(({ title, path, flag }) => {
     return flag ? (
-      <Logout/>
+      <Logout />
     ) : (
-      <ListItem button key={title}>
-        <Link to={path} className={linkText}>
+      <Link to={path}  key={title} className={linkButton}>
+        <ListItem button >
           {title}
-        </Link>
-      </ListItem>
+        </ListItem>
+      </Link>
     );
   });
 }

@@ -19,7 +19,7 @@ function desktopDisplay() {
   const { toolbar, navDisplayFlex } = myStyle();
 
   return (
-    <Toolbar className={toolbar}>
+    <Toolbar className={toolbar}  > 
       <IconButton color="inherit" edge="start">
         <Logo />
       </IconButton>

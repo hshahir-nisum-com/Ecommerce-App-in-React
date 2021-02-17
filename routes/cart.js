@@ -6,13 +6,12 @@ const cartController = require("../controller/cartController");
 //getData
 router.put("/addtocart", cartController.addtocart);
 
-router.get("/getCart", userAuth, async function (req, res) {
-  const cartProductTrue = await CartModel.find({
-    user : req.body.user._id
-  });
-  console.log("cartProductTrue :::", cartProductTrue);
+router.get("/getcart", userAuth, cartController.getCart);
+router.get("/gettotalcount", userAuth, cartController.totalCount);
+router.put("/increaseproductquantity", userAuth, cartController.increaseproductquantity);
+router.put("/decreaseproductquantity", userAuth, cartController.decreaseproductquantity);
+router.delete("/deleteproductquantity/:id", userAuth, cartController.deleteproductquantity);
 
-  return res.status(200).json(cartProductTrue);
-});
+
 
 module.exports = router;

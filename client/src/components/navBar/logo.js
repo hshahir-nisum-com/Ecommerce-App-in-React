@@ -4,25 +4,27 @@ import { Link } from "react-router-dom";
 
 function Logo() {
   return (
+    <Link
+        to="/"
+        style={{
+          textDecoration: "none",
+        }}
+      >
     <IconButton
       variant="h6"
       component="h1"
       style={{
         textAlign: "left",
         textTransform: "uppercase",
+        color: "white",
       }}
     >
-      <Link
-        to="/"
-        style={{
-          textDecoration: "none",
-          color: "white",
-        }}
-      >
+      
         {" "}
         Super store{" "}
-      </Link>
+      
     </IconButton>
+    </Link>
   );
 }
 
