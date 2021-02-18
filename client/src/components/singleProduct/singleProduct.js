@@ -98,7 +98,8 @@ function SingleProduct(props) {
         "auth-token": localStorage.getItem("jwt"),
       },
     });
-    if (getTotalCount) {
+    console.log("getTotalCount 101",getTotalCount.data.totalCount)
+    if (getTotalCount.data.totalCount) {
       dispatch(
         cartItems({
           item: getTotalItem.data.products,
@@ -107,6 +108,7 @@ function SingleProduct(props) {
       );
     }
   }
+
   useEffect(() => {
     fetchCartVal();
     async function getData() {
@@ -172,9 +174,11 @@ function SingleProduct(props) {
                       body: JSON.stringify({
                         userid,
                         products: {
+                          _id : data_temp._id,
                           productId: data_temp.id,
                           quantity: count,
                           name: title,
+                          image ,
                           price,
                         },
                       }),

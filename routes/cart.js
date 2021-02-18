@@ -8,10 +8,20 @@ router.put("/addtocart", cartController.addtocart);
 
 router.get("/getcart", userAuth, cartController.getCart);
 router.get("/gettotalcount", userAuth, cartController.totalCount);
-router.put("/increaseproductquantity", userAuth, cartController.increaseproductquantity);
-router.put("/decreaseproductquantity", userAuth, cartController.decreaseproductquantity);
-router.delete("/deleteproductquantity/:id", userAuth, cartController.deleteproductquantity);
-
-
+router.put(
+  "/increaseproductquantity/:id",
+  userAuth,
+  cartController.increaseproductquantity
+);
+router.put(
+  "/decreaseproductquantity/:id",
+  userAuth,
+  cartController.decreaseproductquantity
+);
+router.delete(
+  "/deleteproductquantity/:id",
+  userAuth,
+  cartController.deleteproductquantity
+);
 
 module.exports = router;

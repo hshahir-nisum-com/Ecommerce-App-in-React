@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-const dbURI = "mongodb+srv://shahir:123@e-commercedb.rdkti.mongodb.net/ecommercedata?retryWrites=true&w=majority";
+const dbURI = "mongodb://localhost:27017/productData";
 
 mongoose.connect(dbURI);
 const product = require("./product.json");

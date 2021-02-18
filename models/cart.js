@@ -5,9 +5,11 @@ const CartSchema = new mongoose.Schema(
     user: { type: mongoose.Schema.ObjectId, ref: "user" },
     products: [
       {
+        _id : String,
         productId: Number,
         quantity: Number,
         name: String,
+        image : String,
         price: Number,
       },
     ],

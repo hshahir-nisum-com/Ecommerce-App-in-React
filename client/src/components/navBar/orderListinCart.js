@@ -14,11 +14,18 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import IconButton from "@material-ui/core/IconButton";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/typography";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import Cart from "./cart";
+import Divider from "@material-ui/core/Divider";
 
 export default function OrderListInCart() {
   const dispatch = useDispatch();
-
-
+  const [totalPrice, settotalPrice] = useState(0)
+  const { items, totalCount } = useSelector(
+    (state) => state.cartItem,
+    shallowEqual
+  );
   async function fetchCartVal() {
     const getTotalCount = await axios.get(
       "http://localhost:8080/gettotalcount",
@@ -33,7 +40,12 @@ export default function OrderListInCart() {
         "auth-token": localStorage.getItem("jwt"),
       },
     });
-    if (getTotalCount) {
+    
+    if (getTotalCount ) {
+      settotalPrice(getTotalItem.data.products.reduce((total,{price ,quantity})=>{
+      
+        return ((parseInt(price) * parseInt(quantity)) + total)
+      },0))
       dispatch(
         cartItems({
           item: getTotalItem.data.products,
@@ -44,84 +56,109 @@ export default function OrderListInCart() {
   }
   useEffect(() => {
     fetchCartVal();
+
+    
   }, []);
+
   return (
-    <Container maxWidth="xl" px={5}>
-      <Box mt={20}>
-        <Grid container spacing={3}>
+    <Container px={5}>
+      <Box mt={20} >
+        <Grid container spacing={5}>
           <Grid item xs={8}>
-            <Box boxShadow={1} p={5}>
-              <Box mb={3}>
-                <Typography variant="h6">Cart ( items)</Typography>
+            <Box boxShadow={1} p={3} bgcolor="#ffffff">
+              <Box mb={3} >
+                <Typography variant="h6">
+                   {items.length == 0 ? <span>Cart is Empty</span> : <span> Cart  {items.length} X items </span> } 
+                </Typography>
               </Box>
-              <Grid container spacing={3}>
-              <Grid item xs={4}>
-                <Box boxShadow={1} p={1}>
-                  image
-                </Box>
-              </Grid>
-              <Grid item xs={8}>
-                <Box px={2}>
-                  <Grid container>
-                      <Grid item xs={4}>
-                          <span style={{display:'block',marginBottom : "20px"}}>this is title</span>
-                          <span style={{marginBottom : "20px"}}>Your Order is here</span>
-
-                      </Grid>
-                      <Grid item xs={8}>
-                        <Box >
-                        <ButtonGroup
-                        size="small"
-                        aria-label="small outlined button group"
-                        style={{}}
-                      >
-                        <Button
-                          onClick={async () => {
-                            await axios.put(
-                              "http://localhost:8080/increaseproductquantity",
-
-                              { index },
-                              {
-                                headers: {
-                                  "auth-token": localStorage.getItem("jwt"),
-                                },
-                              }
-                            );
-                            fetchCartVal();
-                          }}
-                        >
-                          +
-                        </Button>
-                        <Button disabled>{quantity}</Button>
-
-                        <Button
-                          onClick={async () => {
-                            await axios.put(
-                              "http://localhost:8080/decreaseproductquantity",
-
-                              { index },
-                              {
-                                headers: {
-                                  "auth-token": localStorage.getItem("jwt"),
-                                },
-                              }
-                            );
-                            fetchCartVal();
-                          }}
-                        >
-                          -
-                        </Button>
-                      </ButtonGroup> 
-                          </Box>
-                      </Grid>
-                  </Grid>
-                </Box>
-              </Grid>
-              </Grid>
+              {items.map(({ name, price, quantity, _id, image }) => {
+                return (
+                  <React.Fragment key={_id}>
+                    <Cart
+                      fetchCartVal={fetchCartVal}
+                      img={image}
+                      title={name}
+                      quantity={quantity}
+                      price={price}
+                      _id={_id}
+                    />
+                    <Divider
+                      variant="middle"
+                      style={{ marginTop: "25px", marginBottom: "25px" }}
+                    />
+                  </React.Fragment>
+                );
+              })}
             </Box>
           </Grid>
           <Grid item xs={4}>
-            <Paper>xs=4</Paper>
+            <Box boxShadow={1} p={3}>
+              <span style={{ position: "relative", display: "block" }}>
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    display: "block",
+                    position: "absolute",
+                    left: 0,
+                    width: "max-content",
+                  }}
+                >
+                  {" "}
+                  The Total Amount of 
+                </span>
+                <span
+                style={{
+                    fontWeight: "bold",
+                    display: "block",
+                    position: "absolute",
+                    right: 0,
+                    width: "max-content",
+                  }}
+                >
+                  {
+                    totalPrice
+                  } 
+                </span>
+              </span>
+              <span
+                style={{
+                  position: "relative",
+                  display: "block",
+                  margin: "20px 0",
+                  padding: "20px 0",
+                  textAlign: "center",
+                }}
+              >
+                <span
+                  style={{
+                    display: "block",
+                    position: "absolute",
+                    left: 0,
+                    width: "max-content",
+                  }}
+                >
+                  {" "}
+                  Shipping
+                </span>
+                <span
+                  style={{
+                    display: "block",
+                    position: "absolute",
+                    right: "0",
+                    width: "max-content",
+                  }}
+                >
+                  {" "}
+                  N/A
+                </span>
+              </span>
+              <Divider />
+              <span style={{display : "block", padding: "20px 0"}}>
+              <Button variant="contained" color="primary" fullWidth>
+                Go to CheckOut
+              </Button>
+              </span>
+            </Box>
           </Grid>
         </Grid>
       </Box>
