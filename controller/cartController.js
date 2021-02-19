@@ -5,7 +5,7 @@ module.exports.addtocart = async (req, res) => {
   const findUser = await CartModel.findOne({
     user: userid,
   }).select("products");
-  console.log("products::::", products);
+  console.log("userid::::", userid);
 
   if (findUser) {
     for (let i =0; i < findUser.products.length ; i++){
@@ -15,14 +15,15 @@ module.exports.addtocart = async (req, res) => {
         console.log(`findUser.products[${i}]._id`, findUser.products[i]._id , "products._id",products._id)
         findUser.products[i].quantity = parseInt(findUser.products[i].quantity) + parseInt(products.quantity)
         findUser.save()
-        return res.status(204).json({ cart: cart._id });
+        return res.status(204).json({ cart: findUser._id });
       }
     }
     let arr = findUser.products.map((products) => products);
     arr.push(products);
     findUser.products = arr;
     findUser.save();
-    console.log("queryyyyy::::", arr);
+    return res.status(204).json({ cart: findUser._id });
+
   } else {
     const cart = await CartModel.create({ user: userid, products });
     return res.status(201).json({ cart: cart._id });

@@ -40,8 +40,8 @@ export default function OrderListInCart() {
         "auth-token": localStorage.getItem("jwt"),
       },
     });
-    
-    if (getTotalCount ) {
+    console.log("getTotalItem.data :::",getTotalItem.data)
+    if (getTotalItem.data ) {
       settotalPrice(getTotalItem.data.products.reduce((total,{price ,quantity})=>{
       
         return ((parseInt(price) * parseInt(quantity)) + total)
@@ -65,7 +65,7 @@ export default function OrderListInCart() {
       <Box mt={20} >
         <Grid container spacing={5}>
           <Grid item xs={8}>
-            <Box boxShadow={1} p={3} bgcolor="#ffffff">
+            <Box boxShadow={1} p={2} bgcolor="#ffffff">
               <Box mb={3} >
                 <Typography variant="h6">
                    {items.length == 0 ? <span>Cart is Empty</span> : <span> Cart  {items.length} X items </span> } 

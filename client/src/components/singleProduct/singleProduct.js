@@ -98,7 +98,7 @@ function SingleProduct(props) {
         "auth-token": localStorage.getItem("jwt"),
       },
     });
-    console.log("getTotalCount 101",getTotalCount.data.totalCount)
+    console.log("getTotalCount 101", getTotalCount.data.totalCount);
     if (getTotalCount.data.totalCount) {
       dispatch(
         cartItems({
@@ -108,7 +108,65 @@ function SingleProduct(props) {
       );
     }
   }
-
+  async function addToCartToServernd() {
+    if (count > 0 && userid) {
+      fetchCartVal();
+      await fetch("http://localhost:8080/addtocart", {
+        method: "PUT",
+        body: JSON.stringify({
+          userid,
+          products: {
+            _id: data_temp._id,
+            productId: data_temp.id,
+            quantity: count,
+            name: title,
+            image,
+            price,
+          },
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
+    } else {
+      if (count > 0) {
+        let cartItemLocal = JSON.parse(localStorage.getItem("cartItem"));
+        if (cartItemLocal) {
+          for (let i = 0; i < cartItemLocal.length; i++) {
+            if (cartItemLocal[i]._id == data_temp._id) {
+              cartItemLocal[i].quantity =
+                parseInt(cartItemLocal[i].quantity) + parseInt(count);
+              localStorage.setItem("cartItem", JSON.stringify(cartItemLocal));
+              return;
+            }
+          }
+          cartItemLocal.push({
+            _id: data_temp._id,
+            productId: data_temp.id,
+            quantity: count,
+            name: title,
+            image,
+            price,
+          });
+          localStorage.setItem("cartItem", JSON.stringify(cartItemLocal));
+          console.log("add new Item in cart ::", cartItemLocal);
+        } else {
+          localStorage.setItem(
+            "cartItem",
+            JSON.stringify([
+              {
+                _id: data_temp._id,
+                productId: data_temp.id,
+                quantity: count,
+                name: title,
+                image,
+                price,
+              },
+            ])
+          );
+          console.log("cartItem :::", localStorage.getItem("cartItem"));
+        }
+      }
+    }
+  }
   useEffect(() => {
     fetchCartVal();
     async function getData() {
@@ -165,26 +223,8 @@ function SingleProduct(props) {
                 variant={buttonProps.variant}
                 color="primary"
                 className={classes.buyButton}
-                onClick={async () => {
-                  fetchCartVal();
-
-                  if (count > 0) {
-                    await fetch("http://localhost:8080/addtocart", {
-                      method: "PUT",
-                      body: JSON.stringify({
-                        userid,
-                        products: {
-                          _id : data_temp._id,
-                          productId: data_temp.id,
-                          quantity: count,
-                          name: title,
-                          image ,
-                          price,
-                        },
-                      }),
-                      headers: { "Content-Type": "application/json" },
-                    });
-                  }
+                onClick={() => {
+                  addToCartToServernd();
                 }}
                 size={buttonProps.size}
               >
@@ -250,3 +290,16 @@ function SingleProduct(props) {
 }
 
 export default SingleProduct;
+
+// cartItem.push({
+//   _id: data_temp._id,
+//   productId: data_temp.id,
+//   quantity: count,
+//   name: title,
+//   image,
+//   price,
+// });
+// localStorage.setItem(
+//   "cartItem",
+//   JSON.stringify(cartItem)
+// );

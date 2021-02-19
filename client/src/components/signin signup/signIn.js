@@ -35,15 +35,13 @@ export default function SignIn() {
   const classes = MyStyle();
   const [getemail, setgetemail] = useState("");
   const [password, setpassword] = useState("");
-  const [credentialErr , setcredentialErr] = useState("")
+  const [credentialErr, setcredentialErr] = useState("");
   const [flag, setflag] = useState();
 
   async function checkCredential() {
-    
-    
     const emailError = document.querySelector(".email.error");
     const passwordError = document.querySelector(".password.error");
-   
+
     try {
       const res = await fetch("http://localhost:8080/login", {
         method: "POST",
@@ -54,27 +52,48 @@ export default function SignIn() {
         headers: { "Content-Type": "application/json" },
       });
       const data = await res.json();
-      console.log("data :::::::",data)
+      console.log("data :::::::", data);
 
-      
-      if(data)
-      {if (data.email || data.password) {
-        setcredentialErr(data.email? data.email : data.password)
-        setflag(true)
-      }else(
-        setflag(false)
-      )}
+      if (data) {
+        if (data.email || data.password) {
+          setcredentialErr(data.email ? data.email : data.password);
+          setflag(true);
+        } else setflag(false);
+      }
 
       if (data.user) {
-      localStorage.setItem("jwt",data.jwt)
-      localStorage.setItem("uName",data.user.name)
-      localStorage.setItem("userID",data.user._id)
-        history.push('/')
+        localStorage.setItem("jwt", data.jwt);
+        localStorage.setItem("uName", data.user.name);
+        localStorage.setItem("userID", data.user._id);
+        // let =localStorage.getItem("userID");
+
+        let cartItemLocal = JSON.parse(localStorage.getItem("cartItem"));
+        let userid = localStorage.getItem("userID");
+
+        if (cartItemLocal) {
+          let { _id } = data.user;
+          let i = 0;
+          console.log("cartItemLocal.length",cartItemLocal.length)
+          while (i < cartItemLocal.length) {
+            await fetch("http://localhost:8080/addtocart", {
+              method: "PUT",
+              body: JSON.stringify({
+                userid: _id,
+                products: cartItemLocal[i],
+              }),
+              headers: { "Content-Type": "application/json" },
+            });
+
+            i++;
+          }
+
+          localStorage.removeItem("cartItem");
+          history.push("/");
+        }
       }
     } catch (e) {
       console.log("Err in Post /register :::", e);
     }
-
   }
   const history = useHistory();
 
@@ -131,13 +150,12 @@ export default function SignIn() {
             Login
           </Button>
 
-          {
-            (flag && (
-              <Alert variant="filled" severity="error" className="errTag">
-                {" "}
-                wrong credentials — { credentialErr}{" "}
-              </Alert>
-            ))}
+          {flag && (
+            <Alert variant="filled" severity="error" className="errTag">
+              {" "}
+              wrong credentials — {credentialErr}{" "}
+            </Alert>
+          )}
 
           <Grid container>
             <Grid item xs>

@@ -63,19 +63,18 @@ module.exports.login = async (req, res) => {
     res.status(200).json({ user, jwt: token });
   } catch (err) {
     const errors = handleErr(err);
-    res.status(400).json(errors);
+   return res.status(400).json(errors);
   }
-  res.send("login request");
 };
 
 module.exports.reset = async (req, res) => {
   const { email, oldPassword, newpassword } = req.body;
   try {
     const user = await userModel.forgetPass(email, oldPassword, newpassword);
-    res.status(200).json({ user });
+    return res.status(200).json({ user });
   } catch (err) {
     const errors = handleErr(err);
-    res.status(400).json(errors);
+    return res.status(400).json(errors);
   }
 };
 
